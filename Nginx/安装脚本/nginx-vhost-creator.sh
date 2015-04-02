@@ -18,14 +18,14 @@ if [ ! -f /usr/local/nginx/sbin/nginx ]; then
     exit 1
 fi
 
-if [ ! -s /usr/local/nginx/vhosts ]; then
-	mkdir -p /usr/local/nginx/vhosts
+if [ ! -s /usr/local/nginx/domains ]; then
+	mkdir -p /usr/local/nginx/domains
 fi
 
 echo "Please input the domain name:"
 read -p "Domain name:" domain
 
-vhostconf="/usr/local/nginx/vhosts/"$domain".conf"
+vhostconf="/usr/local/nginx/domains/"$domain".conf"
 
 if [ -s $vhostconf ]; then
 	echo "Sorry "$vhostconf" is exists!";
@@ -69,7 +69,7 @@ server {
 }
 EOF
 
-cd /usr/local/nginx/vhosts
+cd /usr/local/nginx/domains
 ls -l
 cat $vhostconf
 
@@ -81,7 +81,7 @@ if [ ! -s $vhostdir ]; then
 	chmod 0755 -R $vhostdir
 fi
 
-isExists=`grep '#include /usr/local/nginx/vhosts' /usr/local/nginx/conf/nginx.conf | wc -l`
+isExists=`grep '#include /usr/local/nginx/domains' /usr/local/nginx/conf/nginx.conf | wc -l`
 if [ "$isExists" = "1" ]; then
 	sed -i 's/#include \/usr\/local\/nginx\/vhosts/include \/usr\/local\/nginx\/vhosts/g' /usr/local/nginx/conf/nginx.conf
 fi

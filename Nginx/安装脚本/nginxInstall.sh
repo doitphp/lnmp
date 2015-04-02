@@ -103,9 +103,9 @@ chkconfig nginx on
 service nginx status
 service nginx restart
 
-if [ ! -s /usr/local/nginx/vhosts ]; then
-    mkdir -p /usr/local/nginx/vhosts
-    printf "Folder: /usr/local/nginx/vhosts has been created.\n"
+if [ ! -s /usr/local/nginx/domains ]; then
+    mkdir -p /usr/local/nginx/domains
+    printf "Folder: /usr/local/nginx/domains has been created.\n"
 fi
 
 printf "\n========== Nginx install Completed! =======\n\n"
@@ -218,7 +218,7 @@ http {
 	}
 	
 	#VirtualHost
-	#include /usr/local/nginx/vhosts/*.conf;
+	#include /usr/local/nginx/domains/*.conf;
 }
 EOF
 
