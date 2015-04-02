@@ -1,0 +1,128 @@
+Nginx配置实例
+
+1、alias设置实例(以下代码放置于server{}间)：
+	location /errors/ {
+		alias /www/htdocs/default/errors/;
+	}
+
+2、使用zabbix监控nginx及php-fpm的状态时，将以下代码添置于 server{}间
+	location /nginx_status {
+			stub_status on;
+			allow 127.0.0.1;
+			deny all;
+	}
+	location /php-fpm_status {
+			allow 127.0.0.1;
+			deny all;
+			fastcgi_pass 127.0.0.1:9000;
+			include        fastcgi.conf;
+	}
+
+3、反向代理
+	server {
+		listen 80;
+		server_name localhost;
+
+		location / {
+			proxy_pass  http://107.181.x.x;
+
+			proxy_redirect off;
+
+			proxy_set_header   Host             $host;
+			proxy_set_header   X-Real-IP        $remote_addr;
+			proxy_set_header   REMOTE-HOST      $remote_addr;
+			proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+			#proxy_set_header   Referer             http://$host;
+
+			proxy_pass_header       User-Agent;
+
+			proxy_max_temp_file_size 0;
+			proxy_connect_timeout      60;
+			proxy_send_timeout         60;
+			proxy_read_timeout         60;
+			proxy_buffer_size          16k;
+			proxy_buffers              4 64k;
+			proxy_busy_buffers_size    128k;
+			proxy_temp_file_write_size 128k;
+
+			proxy_next_upstream error timeout invalid_header http_500 http_503 http_404;
+		}
+	}
+
+4、负载均衡范例
+upstream test_com {
+	server 10.50.201.81;
+	server 10.50.201.88;
+	server 10.50.201.89;
+}
+
+server {
+	listen       80;
+	server_name  localhost;
+
+	charset utf-8;
+
+	location / {
+		proxy_pass http://test_com;
+		proxy_set_header   Host             $host;
+		proxy_set_header   X-Real-IP        $remote_addr;
+		proxy_set_header   X-Forwarded-For  $proxy_add_x_forwarded_for;
+		proxy_set_header   Referer        http://$host;
+	}
+}
+
+5、301重定向
+server {
+    server_name  domain.com;
+    rewrite ^(.*) http://www.domain.com$ permanent;
+}
+
+6、Rewrite 范例
+
+	#rewrite rules
+	try_files $uri $uri/ /index.php?$uri&$args;
+
+	if (!-f $request_filename) {
+		rewrite ^/index\.html /index.php last;
+		rewrite ^/admin/ /admin/index.php last;
+	}
+
+	YafPHP等MVC框架的重写规则
+	if (!-f $request_filename) {
+		rewrite "^/(.*)$" /index.php/$1 last;
+	}
+
+
+
+7、视频播放配置(放置于server{}间)
+	location ~ .*\.mp4$ {
+			mp4;
+			#mp4_buffer_size     1m;
+			#mp4_max_buffer_size 5m;
+	}
+	location ~ .*\.flv$ {
+			flv;
+	}
+
+8、防网站资源被盗链
+	location ~ .*\.mp4$ {
+		mp4;
+		valid_referers none blocked *.hadult.com hadult.com;
+		if ($invalid_referer) {
+			return 404;
+		}
+	}
+
+9、设置客户端浏览器缓存
+	location ~ .*\.(gif|jpg|jpeg|png)$ {
+		expires 30d;
+	}
+	location ~ .*\.(js|css)?$ {
+		expires 1h; 
+	}
+	location ~ .*\.html$ {
+		expires 24h; 
+	}
+
+10、定义配置文件
+	fastcgi_param SINASRV_DB_USER weibo;

@@ -1,0 +1,11 @@
+
+一、开发环境
+php.ini中
+display_errors = On
+
+
+二、生产环境
+php.ini中
+disable_functions = system,passthru,exec,shell_exec,popen,phpinfo
+expose_php = Off
+error_log = /www/logs/nginx/php_error.log

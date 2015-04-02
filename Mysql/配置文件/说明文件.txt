@@ -1,0 +1,37 @@
+
+Mysql主从库设置
+
+一、设置配置文件
+主库：
+	server-id = 1
+	log-bin=mysql-bin
+
+从库：
+	server-id = 2
+	log-bin=mysql-bin
+	relay_log = mysql-relay-bin
+	log_slave_updates = 1
+	read_only = 1
+
+注：server-id是唯一标识，主从库不可重复。
+
+重启主从库
+
+二、查看主从库的状态
+主库：
+1、开通同步帐号(一般情况下不用root帐户)
+	GRANT REPLICATION SLAVE, RELOAD, SUPER ON *.* TO 用户名@'%' IDENTIFIED BY '帐户密码';
+2、查看主库状态
+	SHOW MASTER STATUS;
+
+从库：
+1、连接主库
+	CHANGE MASTER TO MASTER_HOST='主库IP地址', MASTER_USER='用户名', MASTER_PASSWORD='帐户密码', MASTER_LOG_FILE='mysql-bin.00000x', MASTER_LOG_POS=0;
+2、启动从库
+	START SLAVE (关闭从库即：STOP SLAVE)
+3、查看状态
+	SHOW SLAVE STATUS\G;
+注：Slave_IO及Slave_SQL进程必须正常运行，即YES状态，否则都是错误的状态(如：其中一个NO均属错误)。
+
+三、数据库监控
+(略)
