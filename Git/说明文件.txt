@@ -11,6 +11,7 @@ Git V2.3.1 安装说明
 2、安装文件
 gitInstall.sh		Git源码编译安装
 GitlabInstall.sh	GitLab的RPM安装 (gitlab:Git管理工具)
+gitoliteInstall.sh  Gitolite编译安装 (Git管理工具)
 rubyInstall.sh		Ruby源码编译安装 (开发语言)
 
 3、安装目录
@@ -68,3 +69,6 @@ cat ~/.gitconfig
 	/home/git/repositories
 管理员权限管理Git仓库:
 	/home/git/repositories/gitolite-admin.git
+
+注：除gitlab, gitolite管理工具之外，还有gitosis。
+详情请见：http://git-scm.com/book/zh/v1/%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84-Git-Gitosis
