@@ -50,7 +50,7 @@ cat >> /etc/security/limits.conf <<EOF
 EOF
 fi
 
-if [ ! -f /root/.ssh/id_rsa.pub ] && [ ! -f /root/.ssh/authorized_keys]; then
+if [ ! -f /root/.ssh/id_rsa.pub ] && [ ! -f /root/.ssh/authorized_keys ]; then
 	ssh-keygen -t rsa
 fi
 
