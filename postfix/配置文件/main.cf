@@ -1,0 +1,22 @@
+myhost= smtp.doitphp.net
+mydomain = doitphp.net
+myorigin = $mydomain
+inet_interfaces = all
+mydestination = $myhostname, $mydomain
+relay_domains = $mydestination
+
+#mynetworks = 192.168.1.0/100, 127.0.0.0/8 
+#home_mailbox = maildir/
+
+mail_name = Postfix - doitphp.net
+smtp_helo_name = smtp.doitphp.net
+smtpd_banner = $myhostname ESMTP unknow
+smtpd_sasl_auth_enable = yes
+smtpd_recipient_restrictions = permit_mynetworks,permit_sasl_authenticated,reject_unauth_destination
+smtpd_sasl_security_options = noanonymous
+
+bounce_queue_lifetime = 1d
+maximal_queue_lifetime = 1d
+message_size_limit = 15728640 
+local_recipient_maps =
+unknown_local_recipient_reject_code = 550
