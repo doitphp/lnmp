@@ -1,5 +1,5 @@
 
-Postfix V3.0 安装说明
+Postfix V2.6.6 安装说明
 
 软件用途：作为SMTP Server
 
@@ -61,6 +61,22 @@ netstat -ntlp | grep 25
 直接使用系统用户
 使用useradd命令添加，然后再使用passwd来设置密码
 
-配置文件中子目录smtptest中为smtp server的测试脚本
+5、域名解析(例)
+A记录
+smtp.doitphp.net 用于smtp server (MTA)
+pop.doithp.net	用于pop server   (MUA)
+imap.doitphp.net 用于imap server (MUA)
+mail.doitphp.net 用于web管理控制页的访问
 
-注：postfix与cyrus-sasl在CentOS V6.5已集成
+MX记录解析
+@	doitphp.net	192.168.1.100
+
+SPF解析
+@	doitphp.net	v=spf1 ip4:123.123.123.123 ~all
+或
+@	doitphp.net	v=spf1 a mx ~all
+
+
+注：
+  postfix与cyrus-sasl在CentOS V6.5已集成
+  配置文件中子目录smtptest中为smtp server的测试脚本
