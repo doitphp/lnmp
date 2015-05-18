@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "===========================\n"
-printf " PHP 5.6.51 Install	       \n"
+printf " PHP 5.6.5 Install	       \n"
 printf "copyright: www.doitphp.com \n"
 printf "===========================\n"
 printf "\n\n"
@@ -194,19 +194,19 @@ printf "\n========== freetype install end ==========\n\n"
 printf "========= libgd install start... =========\n\n"
 
 if [ ! -f /usr/local/lib/libgd.so ]; then
-	if [ -s gd-2.1.1.tar.gz ]; then
-		echo "gd-2.1.1.tar.gz [found]"
+	if [ -s libgd-2.1.1.tar.gz ]; then
+		echo "libgd-2.1.1.tar.gz [found]"
 	else
-		echo "gd-2.1.1.tar.gz download now..."
-		wget https://github.com/libgd/libgd/archive/gd-2.1.1.tar.gz		
+		echo "libgd-2.1.1.tar.gz download now..."
+		wget http://fossies.org/linux/www/libgd-2.1.1.tar.gz
 	fi
 
-	if [ -s gd-2.1.1 ]; then
-		rm -rf gd-2.1.1
+	if [ -s libgd-2.1.1 ]; then
+		rm -rf libgd-2.1.1
 	fi
-	tar zxvf gd-2.1.1.tar.gz
+	tar zxvf libgd-2.1.1.tar.gz
 
-	cd gd-2.1.1
+	cd libgd-2.1.1
 	./configure --prefix=/usr/local --with-zlib=/usr/local --with-png=/usr/local --with-freetype=/usr/local --with-jpeg=/usr/local
 	make
 	make install
