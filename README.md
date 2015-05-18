@@ -1,11 +1,11 @@
 # lnmp
 自动搭建Linux+Nginx+PHP+Mysql的运行环境，以及PHP程序相关的Memcached，redis, mongodb等软件的自动安装shell脚本。
 
-目前已在centos 6.5 (64bit)测试正常。
+目前已在centos 6.x (64bit)测试正常。
 
 各软件列表:
 
-Nginx V1.7.10
+Nginx V1.9.0
 Tengine V2.1
 
 PHP V5.5与V5.6
