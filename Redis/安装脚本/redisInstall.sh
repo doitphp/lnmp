@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "==========================\n"
-printf " redis v2.8.19 Install	  \n"
+printf " redis v2.8.20 Install	  \n"
 printf " copyright:www.doitphp.com \n"
 printf "==========================\n"
 printf "\n\n"
@@ -22,15 +22,15 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s redis-2.8.19.tar.gz ]; then
-    echo "redis-2.8.19.tar.gz [found]"
+if [ -s redis-2.8.20.tar.gz ]; then
+    echo "redis-2.8.20.tar.gz [found]"
 else
-    echo "redis-2.8.19.tar.gz download now..."
-    wget http://download.redis.io/releases/redis-2.8.19.tar.gz	
+    echo "redis-2.8.20.tar.gz download now..."
+    wget http://download.redis.io/releases/redis-2.8.20.tar.gz	
 fi
 
-if [ ! -f redis-2.8.19.tar.gz ]; then
-    printf "Error: redis-2.8.19.tar.gz not found!\n"
+if [ ! -f redis-2.8.20.tar.gz ]; then
+    printf "Error: redis-2.8.20.tar.gz not found!\n"
     exit 1
 fi
 
@@ -46,10 +46,10 @@ if [ ! -f tcl8.6.3-src.tar.gz ]; then
     exit 1
 fi
 
-if [ -s redis-2.8.19 ]; then
-    rm -rf redis-2.8.19
+if [ -s redis-2.8.20 ]; then
+    rm -rf redis-2.8.20
 fi
-tar zxvf redis-2.8.19.tar.gz
+tar zxvf redis-2.8.20.tar.gz
 
 if [ -s tcl8.6.3 ]; then
     rm -rf tcl8.6.3
@@ -81,7 +81,7 @@ chmod 0777 -R /var/log/redis
 mkdir -p /usr/local/redis/etc
 mkdir -p /usr/local/redis/logs
 
-cd redis-2.8.19
+cd redis-2.8.20
 make PREFIX=/usr/local/redis test
 make PREFIX=/usr/local/redis install
 
