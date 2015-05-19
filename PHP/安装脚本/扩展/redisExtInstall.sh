@@ -27,19 +27,19 @@ cd websrc
 
 printf "========= Redis php extension install start... =========\n\n"
 
-if [ -s redis-2.2.5.tgz ]; then
-    echo "redis-2.2.5.tgz [found]"
+if [ -s redis-2.2.7.tgz ]; then
+    echo "redis-2.2.7.tgz [found]"
 else
-    echo "redis-2.2.5.tgz download now..."
-    wget http://pecl.php.net/get/redis-2.2.5.tgz
+    echo "redis-2.2.7.tgz download now..."
+    wget http://pecl.php.net/get/redis-2.2.7.tgz
 fi
 
-if [ -s redis-2.2.5 ]; then
-    rm -rf redis-2.2.5
+if [ -s redis-2.2.7 ]; then
+    rm -rf redis-2.2.7
 fi
-tar zxvf redis-2.2.5.tgz
+tar zxvf redis-2.2.7.tgz
 
-cd redis-2.2.5
+cd redis-2.2.7
 export PHP_AUTOCONF="/usr/local/bin/autoconf"
 export PHP_AUTOHEADER="/usr/local/bin/autoheader"
 /usr/local/php5/bin/phpize
