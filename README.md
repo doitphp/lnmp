@@ -16,7 +16,7 @@ MariaDB V10.0.14
 Percona Server V5.6.22
 
 Memcached V1.4.22
-Redis V2.8.19
+Redis V3.0.1
 MongoDB V2.6.7
 
 Coreseek V3.2.14
