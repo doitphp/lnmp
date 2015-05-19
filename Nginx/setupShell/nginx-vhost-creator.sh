@@ -39,8 +39,6 @@ server {
 	index  index.html index.php;
 	root   /www/htdocs/$domain;
 
-	#try_files $uri $uri/ /index.php?$uri&$args;
-
 	location ~ \.php$ {
 		fastcgi_pass  127.0.0.1:9000;
 		fastcgi_index  index.php;
