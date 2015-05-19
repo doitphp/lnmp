@@ -83,7 +83,7 @@ fi
 
 isExists=`grep '#include /usr/local/nginx/domains' /usr/local/nginx/conf/nginx.conf | wc -l`
 if [ "$isExists" = "1" ]; then
-	sed -i 's/#include \/usr\/local\/nginx\/vhosts/include \/usr\/local\/nginx\/vhosts/g' /usr/local/nginx/conf/nginx.conf
+	sed -i 's/#include \/usr\/local\/nginx\/domains/include \/usr\/local\/nginx\/domains/g' /usr/local/nginx/conf/nginx.conf
 fi
 
 printf " === create nginx VirtualHost conf complete. === \n\n"
