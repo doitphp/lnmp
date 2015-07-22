@@ -22,11 +22,11 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s pcre-8.36.tar.gz ]; then
-    echo "pcre-8.36.tar.gz [found]"
+if [ -s pcre-8.37.tar.bz2 ]; then
+    echo "pcre-8.37.tar.bz2 [found]"
 else
-    echo "pcre-8.36.tar.gz download now..."
-	wget http://softlayer-sng.dl.sourceforge.net/project/pcre/pcre/8.36/pcre-8.36.tar.gz
+    echo "pcre-8.37.tar.bz2 download now..."
+	wget http://ncu.dl.sourceforge.net/project/pcre/pcre/8.37/pcre-8.37.tar.bz2
 fi
 
 if [ -s nginx-1.9.0.tar.gz ]; then
@@ -42,10 +42,10 @@ if [ "$nginxMd5" != "487c26cf0470d8869c41a73621847268" ]; then
     exit 1
 fi
 
-if [ -s pcre-8.36 ]; then
-    rm -rf pcre-8.36   
+if [ -s pcre-8.37 ]; then
+    rm -rf pcre-8.37   
 fi
-tar zxvf pcre-8.36.tar.gz
+tar jxvf pcre-8.37.tar.bz2
 
 if [ -s nginx-1.9.0 ]; then
     rm -rf nginx-1.9.0
@@ -73,7 +73,7 @@ printf "========= pcre install start... =========\n\n"
 if [ -s /usr/local/bin/pcregrep ]; then
     echo "pcre has been installed.";
 else
-	cd pcre-8.36
+	cd pcre-8.37
 	./configure --prefix=/usr/local
 	make
 	make install
@@ -119,7 +119,7 @@ printf "\n========= check jemalloc whether installed Completed! =========\n\n"
 printf "========= Nginx install start... =========\n\n"
 
 cd nginx-1.9.0
-./configure --prefix=/usr/local/nginx --user=www --group=www --without-http_memcached_module --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_sub_module --with-http_realip_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module --with-ld-opt="-ljemalloc" --with-pcre=../pcre-8.36
+./configure --prefix=/usr/local/nginx --user=www --group=www --without-http_memcached_module --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_sub_module --with-http_realip_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module --with-ld-opt="-ljemalloc" --with-pcre=../pcre-8.37
 make
 make install
 cd -
