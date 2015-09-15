@@ -29,16 +29,16 @@ else
 	wget http://softlayer-sng.dl.sourceforge.net/project/pcre/pcre/8.36/pcre-8.36.tar.gz
 fi
 
-if [ -s nginx-1.9.0.tar.gz ]; then
-    echo "nginx-1.9.0.tar.gz [found]"
+if [ -s nginx-1.9.4.tar.gz ]; then
+    echo "nginx-1.9.4.tar.gz [found]"
 else
-    echo "nginx-1.9.0.tar.gz download now..."
-    wget http://nginx.org/download/nginx-1.9.0.tar.gz
+    echo "nginx-1.9.4.tar.gz download now..."
+    wget http://nginx.org/download/nginx-1.9.4.tar.gz
 fi
 
-nginxMd5=`md5sum nginx-1.9.0.tar.gz | awk '{print $1}'`
-if [ "$nginxMd5" != "487c26cf0470d8869c41a73621847268" ]; then
-    echo "Error: nginx-1.9.0.tar.gz package md5 value is invalid. Please check package download url";
+nginxMd5=`md5sum nginx-1.9.4.tar.gz | awk '{print $1}'`
+if [ "$nginxMd5" != "27322fbb4b265c0e0cc548f5e6b7f201" ]; then
+    echo "Error: nginx-1.9.4.tar.gz package md5 value is invalid. Please check package download url";
     exit 1
 fi
 
@@ -47,10 +47,10 @@ if [ -s pcre-8.36 ]; then
 fi
 tar zxvf pcre-8.36.tar.gz
 
-if [ -s nginx-1.9.0 ]; then
-    rm -rf nginx-1.9.0
+if [ -s nginx-1.9.4 ]; then
+    rm -rf nginx-1.9.4
 fi
-tar zxvf nginx-1.9.0.tar.gz
+tar zxvf nginx-1.9.4.tar.gz
 
 printf "\n========= source package download completed =========\n\n"
 
@@ -118,7 +118,7 @@ fi
 printf "\n========= check jemalloc whether installed Completed! =========\n\n"
 printf "========= Nginx install start... =========\n\n"
 
-cd nginx-1.9.0
+cd nginx-1.9.4
 ./configure --prefix=/usr/local/nginx --user=www --group=www --without-http_memcached_module --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_sub_module --with-http_realip_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module --with-http_mp4_module --with-http_flv_module --with-ld-opt="-ljemalloc" --with-pcre=../pcre-8.36
 make
 make install
