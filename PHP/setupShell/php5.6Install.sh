@@ -48,7 +48,7 @@ if [ ! -f /usr/local/lib/libz.so ]; then
 		echo "zlib-1.2.8.tar.gz [found]"
 	else
 		echo "zlib-1.2.8.tar.gz download now..."
-		wget http://cznic.dl.sourceforge.net/project/libpng/zlib/1.2.8/zlib-1.2.8.tar.gz
+		wget http://sourceforge.net/projects/libpng/files/zlib/1.2.8/zlib-1.2.8.tar.gz
 	fi
 
 	if [ -s zlib-1.2.8 ]; then
