@@ -23,7 +23,7 @@ OPTIONS=" -f $CONFIGFILE"
 # for now.  This can go away when this script stops supporting 1.8.
 PIDFILE=/var/run/mongod.pid
 
-mongod=${MONGOD-/usr/local/mongodb/bin/mongod}
+mongod="/usr/local/mongodb/bin/mongod"
 
 MONGO_USER=mongod
 MONGO_GROUP=mongod
