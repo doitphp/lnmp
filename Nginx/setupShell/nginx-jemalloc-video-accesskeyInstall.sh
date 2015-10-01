@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "========================================\n"
-printf " Nginx V1.9.0 + jemalloc V3.6.0 Install \n"
+printf " Nginx V1.9.5 + jemalloc V3.6.0 Install \n"
 printf " copyright: www.doitphp.com             \n"
 printf "========================================\n"
 printf "\n\n"
@@ -29,16 +29,16 @@ else
 	wget http://softlayer-sng.dl.sourceforge.net/project/pcre/pcre/8.36/pcre-8.36.tar.gz
 fi
 
-if [ -s nginx-1.9.4.tar.gz ]; then
-    echo "nginx-1.9.4.tar.gz [found]"
+if [ -s nginx-1.9.5.tar.gz ]; then
+    echo "nginx-1.9.5.tar.gz [found]"
 else
-    echo "nginx-1.9.4.tar.gz download now..."
-    wget http://nginx.org/download/nginx-1.9.4.tar.gz
+    echo "nginx-1.9.5.tar.gz download now..."
+    wget http://nginx.org/download/nginx-1.9.5.tar.gz
 fi
 
-nginxMd5=`md5sum nginx-1.9.4.tar.gz | awk '{print $1}'`
-if [ "$nginxMd5" != "27322fbb4b265c0e0cc548f5e6b7f201" ]; then
-    echo "Error: nginx-1.9.4.tar.gz package md5 value is invalid. Please check package download url";
+nginxMd5=`md5sum nginx-1.9.5.tar.gz | awk '{print $1}'`
+if [ "$nginxMd5" != "2562320f1535e3e31d165e337ae94f21" ]; then
+    echo "Error: nginx-1.9.5.tar.gz package md5 value is invalid. Please check package download url";
     exit 1
 fi
 
@@ -54,10 +54,10 @@ if [ -s pcre-8.36 ]; then
 fi
 tar zxvf pcre-8.36.tar.gz
 
-if [ -s nginx-1.9.4 ]; then
-    rm -rf nginx-1.9.4
+if [ -s nginx-1.9.5 ]; then
+    rm -rf nginx-1.9.5
 fi
-tar zxvf nginx-1.9.4.tar.gz
+tar zxvf nginx-1.9.5.tar.gz
 
 if [ -s nginx-accesskey-2.0.3 ]; then
     rm -rf nginx-accesskey-2.0.3
@@ -131,7 +131,7 @@ fi
 printf "\n========= check jemalloc whether installed Completed! =========\n\n"
 printf "========= Nginx install start... =========\n\n"
 
-cd nginx-1.9.4
+cd nginx-1.9.5
 ./configure --prefix=/usr/local/nginx --user=www --group=www --without-http_memcached_module --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_sub_module --with-http_realip_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module --with-http_mp4_module --with-http_flv_module --with-ld-opt="-ljemalloc" --with-pcre=../pcre-8.36 --add-module=../nginx-accesskey-2.0.3
 make
 make install
@@ -236,8 +236,6 @@ http {
 		server_name localhost;
 		index  index.html index.php;
 		root   /www/htdocs/default;
-
-		#try_files $uri $uri/ /index.php?$uri&$args;
 
 		location ~ \.php\$ {
 			fastcgi_pass  127.0.0.1:9000;
