@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "===========================\n"
-printf " PHP 5.6.5 Install	       \n"
+printf " PHP 5.6.13 Install	       \n"
 printf "copyright: www.doitphp.com \n"
 printf "===========================\n"
 printf "\n\n"
@@ -22,23 +22,23 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s php-5.6.5.tar.bz2 ]; then
-    echo "php-5.6.5.tar.bz2 [found]"
+if [ -s php-5.6.13.tar.bz2 ]; then
+    echo "php-5.6.13.tar.bz2 [found]"
 else
-    echo "php-5.6.5.tar.bz2 download now..."
-    wget http://www.php.net/distributions/php-5.6.5.tar.bz2
+    echo "php-5.6.13.tar.bz2 download now..."
+    wget http://www.php.net/distributions/php-5.6.13.tar.bz2
 fi
 
-phpMd5=`md5sum php-5.6.5.tar.bz2 | awk '{print $1}'`
-if [ "$phpMd5" != "64d0debf42bfff537d891e1fe1a4b65c" ]; then
-    echo "Error: php-5.6.5.tar.bz2 package md5 value is invalid. Please check package download url";
+phpMd5=`md5sum php-5.6.13.tar.bz2 | awk '{print $1}'`
+if [ "$phpMd5" != "64d9a82068e3b0bbb16c261261391172" ]; then
+    echo "Error: php-5.6.13.tar.bz2 package md5 value is invalid. Please check package download url";
     exit 1
 fi
 
-if [ -s php-5.6.5 ]; then
-    rm -rf php-5.6.5
+if [ -s php-5.6.13 ]; then
+    rm -rf php-5.6.13
 fi
-tar jxvf php-5.6.5.tar.bz2
+tar jxvf php-5.6.13.tar.bz2
 
 printf "\n========= source package download completed =========\n\n"
 printf "========= zlib install start... =========\n\n"
@@ -380,7 +380,7 @@ fi
 printf "\n========== autoconf install end ==========\n\n"
 printf "========= PHP install start... =========\n\n"
 
-cd php-5.6.5
+cd php-5.6.13
 ./configure --prefix=/usr/local/php5 --with-config-file-path=/usr/local/php5/etc --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-gd=/usr/local --with-iconv-dir=/usr/local --with-freetype-dir=/usr/local --with-jpeg-dir=/usr/local --with-png-dir=/usr/local --with-zlib --with-xmlrpc --with-curl --with-openssl --with-mcrypt=/usr/local --with-mhash --with-gettext --with-ldap --with-ldap-sasl --without-pear --enable-xml --enable-session --enable-sockets --enable-zip --enable-mbstring --enable-bcmath --enable-shmop --enable-soap --enable-sysvsem --enable-inline-optimization --enable-mbregex --enable-fpm --enable-ftp --enable-pcntl --enable-gd-native-ttf --disable-rpath --enable-maintainer-zts --enable-opcache --enable-calendar
 make -j 4 ZEND_EXTRA_LIBS='-liconv'
 make test
@@ -436,7 +436,7 @@ if [ "$isExists" == "0" ]; then
 	fi
 fi
 
-read -p "Please make sure this server is production server, High security level?[y/n]:" isproduction
+read -p "Please make sure this server is production server?[y/n]:" isproduction
 if [ "$isproduction" == "y" ] || [ "$isproduction" == "Y" ]; then
 	if [ ! -s /www/logs/nginx ]; then
 		mkdir -m 0777 -p /www/logs/nginx
