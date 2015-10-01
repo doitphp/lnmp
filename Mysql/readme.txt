@@ -21,7 +21,7 @@ mysqlbackup.sh						mysqldump备份数据自动化脚本(非安装文件)
 /usr/local/mysql
 
 执行文件: /usr/local/mysql/bin/mysql
-Pid: /data/mysql/mysql.pid
+Pid: /var/run/mysql.pid
 
 二、配置文件
 1、文件目录
