@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "==========================\n"
-printf " Tengine 2.1.0 Install	  \n"
+printf " Tengine V2.1.1 Install	  \n"
 printf "copyright:www.doitphp.com \n"
 printf "==========================\n"
 printf "\n\n"
@@ -22,35 +22,35 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s pcre-8.34.zip ]; then
-    echo "pcre-8.34.zip [found]"
+if [ -s pcre-8.37.tar.bz2 ]; then
+    echo "pcre-8.37.tar.bz2 [found]"
 else
-    echo "pcre-8.34.zip download now..."
-    wget http://ncu.dl.sourceforge.net/project/pcre/pcre/8.34/pcre-8.34.zip
+    echo "pcre-8.37.tar.bz2 download now..."
+	wget http://ncu.dl.sourceforge.net/project/pcre/pcre/8.37/pcre-8.37.tar.bz2
 fi
 
-if [ -s tengine-2.1.0.tar.gz ]; then
-    echo "tengine-2.1.0.tar.gz [found]"
+if [ -s tengine-2.1.1.tar.gz ]; then
+    echo "tengine-2.1.1.tar.gz [found]"
 else
-    echo "tengine-2.1.0.tar.gz download now..."
-    wget http://tengine.taobao.org/download/tengine-2.1.0.tar.gz
+    echo "tengine-2.1.1.tar.gz download now..."
+    wget http://tengine.taobao.org/download/tengine-2.1.1.tar.gz
 fi
 
-nginxMd5=`md5sum tengine-2.1.0.tar.gz | awk '{print $1}'`
-if [ "$nginxMd5" != "fb60c57c2610c6a356153613c485e4af" ]; then
-    echo "Error: tengine-2.1.0.tar.gz package md5 value is invalid. Please check package download url";
+nginxMd5=`md5sum tengine-2.1.1.tar.gz | awk '{print $1}'`
+if [ "$nginxMd5" != "357ec313735bce0b75fedd4662f6208c" ]; then
+    echo "Error: tengine-2.1.1.tar.gz package md5 value is invalid. Please check package download url";
     exit 1
 fi
 
-if [ -s pcre-8.34 ]; then
-    rm -rf pcre-8.34    
+if [ -s pcre-8.37 ]; then
+    rm -rf pcre-8.37   
 fi
-unzip pcre-8.34.zip
+tar jxvf pcre-8.37.tar.bz2
 
-if [ -s tengine-2.1.0 ]; then
-    rm -rf tengine-2.1.0
+if [ -s tengine-2.1.1 ]; then
+    rm -rf tengine-2.1.1
 fi
-tar zxvf tengine-2.1.0.tar.gz
+tar zxvf tengine-2.1.1.tar.gz
 
 printf "\n========= source package download completed =========\n\n"
 
@@ -69,7 +69,7 @@ printf "========= pcre install start... =========\n\n"
 if [ -s /usr/local/bin/pcregrep ]; then
     echo "pcre has been installed.";
 else
-	cd pcre-8.36
+	cd pcre-8.37
 	./configure --prefix=/usr/local
 	make
 	make install
@@ -114,8 +114,8 @@ fi
 printf "\n========= check jemalloc whether installed Completed! =========\n\n"
 printf "========= Tengine install start... =========\n\n"
 
-cd tengine-2.1.0
-./configure --prefix=/usr/local/nginx --user=www --group=www --without-http_memcached_module --without-dso --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_sub_module --with-http_realip_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module --with-jemalloc --with-pcre=../pcre-8.34
+cd tengine-2.1.1
+./configure --prefix=/usr/local/nginx --user=www --group=www --without-http_memcached_module --without-dso --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_sub_module --with-http_realip_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module --with-jemalloc --with-pcre=../pcre-8.37
 make
 make test
 make install
@@ -212,8 +212,6 @@ http {
 		server_name localhost;
 		index  index.html index.php;
 		root   /www/htdocs/default;
-
-		#try_files $uri $uri/ /index.php?$uri&$args;
 
 		location ~ \.php\$ {
 			fastcgi_pass  127.0.0.1:9000;
