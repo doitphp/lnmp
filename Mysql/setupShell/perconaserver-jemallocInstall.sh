@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "================================\n"
-printf " Percona Server 5.6.22 Install  \n"
+printf " Percona Server 5.6.26 Install  \n"
 printf " copyright :www.doitphp.com     \n"
 printf "================================\n"
 printf "\n\n"
@@ -22,23 +22,23 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s percona-server-5.6.22-72.0.tar.gz ]; then
-  echo "percona-server-5.6.22-72.0.tar.gz [found]"
+if [ -s percona-server-5.6.26-74.0.tar.gz ]; then
+  echo "percona-server-5.6.26-74.0.tar.gz [found]"
 else
-  echo "percona-server-5.6.22-72.0.tar.gz download now..."
-  wget http://www.percona.com/downloads/Percona-Server-5.6/Percona-Server-5.6.22-72.0/source/tarball/percona-server-5.6.22-72.0.tar.gz
+  echo "percona-server-5.6.26-74.0.tar.gz download now..."
+  wget https://www.percona.com/downloads/Percona-Server-5.6/Percona-Server-5.6.26-74.0/source/tarball/percona-server-5.6.26-74.0.tar.gz
 fi
 
-mariadbMd5=`md5sum percona-server-5.6.22-72.0.tar.gz | awk '{print $1}'`
-if [ "$mariadbMd5" != "18b4f3dbe152f8e4572c7a0804fb34c3" ]; then
-    echo "Error: percona-server-5.6.22-72.0.tar.gz package md5 value is invalid. Please check package download url";
+mariadbMd5=`md5sum percona-server-5.6.26-74.0.tar.gz | awk '{print $1}'`
+if [ "$mariadbMd5" != "172f420ec779e8902b6a92048088d528" ]; then
+    echo "Error: percona-server-5.6.26-74.0.tar.gz package md5 value is invalid. Please check package download url";
     exit 1
 fi
 
-if [ -s percona-server-5.6.22-72.0 ]; then
-    rm -rf percona-server-5.6.22-72.0
+if [ -s percona-server-5.6.26-74.0 ]; then
+    rm -rf percona-server-5.6.26-74.0
 fi
-tar zxvf percona-server-5.6.22-72.0.tar.gz
+tar zxvf percona-server-5.6.26-74.0.tar.gz
 
 printf "\n========= source package download completed =========\n\n"
 
@@ -113,7 +113,7 @@ fi
 printf "\n========= check jemalloc whether installed Completed! =========\n\n"
 printf "========= percona server install start... =========\n\n"
 
-cd percona-server-5.6.22-72.0
+cd percona-server-5.6.26-74.0
 cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/data/mysql -DSYSCONFDIR=/etc -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1 -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all -DCMAKE_EXE_LINKER_FLAGS='-ljemalloc' -DWITH_SAFEMALLOC=OFF
 make -j 4
 make install

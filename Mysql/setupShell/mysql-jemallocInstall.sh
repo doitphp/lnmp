@@ -22,23 +22,23 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s mysql-5.6.25.tar.gz ]; then
-  echo "mysql-5.6.25.tar.gz [found]"
+if [ -s mysql-5.6.27.tar.gz ]; then
+  echo "mysql-5.6.27.tar.gz [found]"
 else
-  echo "mysql-5.6.25.tar.gz download now..."
-  wget http://cdn.mysql.com/Downloads/MySQL-5.6/mysql-5.6.25.tar.gz  
+  echo "mysql-5.6.27.tar.gz download now..."
+  wget http://cdn.mysql.com/Downloads/MySQL-5.6/mysql-5.6.27.tar.gz  
 fi
 
-mariadbMd5=`md5sum mysql-5.6.25.tar.gz | awk '{print $1}'`
-if [ "$mariadbMd5" != "37664399c91021abe070faa700ecd0ed" ]; then
-    echo "Error: mysql-5.6.25.tar.gz package md5 value is invalid. Please check package download url";
+mariadbMd5=`md5sum mysql-5.6.27.tar.gz | awk '{print $1}'`
+if [ "$mariadbMd5" != "7754df40bb5567b03b041ccb6b5ddffa" ]; then
+    echo "Error: mysql-5.6.27.tar.gz package md5 value is invalid. Please check package download url";
     exit 1
 fi
 
-if [ -s mysql-5.6.25 ]; then
-    rm -rf mysql-5.6.25
+if [ -s mysql-5.6.27 ]; then
+    rm -rf mysql-5.6.27
 fi
-tar zxvf mysql-5.6.25.tar.gz
+tar zxvf mysql-5.6.27.tar.gz
 
 printf "\n========= source package download completed =========\n\n"
 
@@ -113,7 +113,7 @@ fi
 printf "\n========= check jemalloc whether installed Completed! =========\n\n"
 printf "========= MariaDB install start... =========\n\n"
 
-cd mysql-5.6.25
+cd mysql-5.6.27
 cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/data/mysql -DSYSCONFDIR=/etc -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1 -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all -DCMAKE_EXE_LINKER_FLAGS='-ljemalloc' -DWITH_SAFEMALLOC=OFF
 make -j 4
 make install

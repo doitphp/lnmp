@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "===========================\n"
-printf " MariaDB V10.0.14 Install  \n"
+printf " MariaDB V10.0.21 Install  \n"
 printf " copyright:www.doitphp.com \n"
 printf "===========================\n"
 printf "\n\n"
@@ -22,23 +22,23 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s mariadb-10.0.14.tar.gz ]; then
-  echo "mariadb-10.0.14.tar.gz [found]"
+if [ -s mariadb-10.0.21.tar.gz ]; then
+  echo "mariadb-10.0.21.tar.gz [found]"
 else
-  echo "mariadb-10.0.14.tar.gz download now..."
-  wget https://downloads.mariadb.org/interstitial/mariadb-10.0.14/source/mariadb-10.0.14.tar.gz
+  echo "mariadb-10.0.21.tar.gz download now..."
+  wget http://mariadb.biz.net.id//mariadb-10.0.21/source/mariadb-10.0.21.tar.gz
 fi
 
-mariadbMd5=`md5sum mariadb-10.0.14.tar.gz | awk '{print $1}'`
-if [ "$mariadbMd5" != "80fea71de54a9cfa7f5508df53d3f06d" ]; then
-    echo "Error: mariadb-10.0.14.tar.gz package md5 value is invalid. Please check package download url";
+mariadbMd5=`md5sum mariadb-10.0.21.tar.gz | awk '{print $1}'`
+if [ "$mariadbMd5" != "956561f3798d1fe8dfbe4b665287a87a" ]; then
+    echo "Error: mariadb-10.0.21.tar.gz package md5 value is invalid. Please check package download url";
     exit 1
 fi
 
-if [ -s mariadb-10.0.14 ]; then
-    rm -rf mariadb-10.0.14
+if [ -s mariadb-10.0.21 ]; then
+    rm -rf mariadb-10.0.21
 fi
-tar zxvf mariadb-10.0.14.tar.gz
+tar zxvf mariadb-10.0.21.tar.gz
 
 printf "\n========= source package download completed =========\n\n"
 
@@ -78,7 +78,7 @@ fi
 printf "\n========= Cmake install end =========\n\n"
 printf "========= MariaDB install start... =========\n\n"
 
-cd mariadb-10.0.14
+cd mariadb-10.0.21
 cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/data/mysql -DSYSCONFDIR=/etc -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1 -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all
 make -j 8
 make install
