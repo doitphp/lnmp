@@ -84,6 +84,14 @@ if [ "$isiptables" == "y" ] || [ "$isiptables" == "Y" ]; then
 		fi
 	fi
 
+	read -p "Do you want to open port 873 for rsync?[y/n]:" isopen873
+	if [ "$isopen873" == "y" ] || [ "$isopen873" == "Y" ]; then
+		hasSet=`grep "tcp \-\-dport 873 \-j ACCEPT" /etc/sysconfig/iptables | wc -l`
+		if [ "$hasSet" != "1" ]; then
+			sed -i '/\-A INPUT \-m state \-\-state NEW \-m tcp \-p tcp \-\-dport 22 \-j ACCEPT/ a\\-A INPUT \-m state \-\-state NEW \-m tcp \-p tcp \-\-dport 873 \-j ACCEPT' /etc/sysconfig/iptables
+		fi
+	fi
+
 	cat /etc/sysconfig/iptables
 
 	read -p "Do you want to restart iptables?[y/n]:" isrestart
