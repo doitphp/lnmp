@@ -83,7 +83,7 @@ fork=true
 dbpath=/data/mongodb
 
 # location of pidfile
-pidfilepath=/usr/local/mongodb/logs/mongod.pid
+pidfilepath=/var/run/mongod.pid
 
 # Listen to local interface only. Comment out to listen on all interfaces. 
 bind_ip=127.0.0.1
