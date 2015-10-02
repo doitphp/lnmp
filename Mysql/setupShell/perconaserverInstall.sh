@@ -53,22 +53,22 @@ mkdir -m 0777 -p /var/log/mysql
 
 printf "========= Cmake install start... =========\n\n"
 
-if [ -s /usr/local/share/cmake-3.1/completions/cmake ]; then
+if [ -s /usr/local/share/cmake-3.3/completions/cmake ]; then
 	echo "cmake V3.1.2 has been installed.";
 else
-	if [ -s cmake-3.1.2.tar.gz ]; then
-		echo "cmake-3.1.2.tar.gz [found]"
+	if [ -s cmake-3.3.2.tar.gz ]; then
+		echo "cmake-3.3.2.tar.gz [found]"
 	else
-		echo "cmake-3.1.2.tar.gz download now..."
-		wget http://www.cmake.org/files/v3.1/cmake-3.1.2.tar.gz
+		echo "cmake-3.3.2.tar.gz download now..."
+		wget https://cmake.org/files/v3.3/cmake-3.3.2.tar.gz		
 	fi
 
-	if [ -s cmake-3.1.2 ]; then
-		rm -rf cmake-3.1.2 
+	if [ -s cmake-3.3.2 ]; then
+		rm -rf cmake-3.3.2 
 	fi
-	tar zxvf cmake-3.1.2.tar.gz
+	tar zxvf cmake-3.3.2.tar.gz
 
-	cd cmake-3.1.2
+	cd cmake-3.3.2
 	./configure --prefix=/usr/local
 	make -j 4
 	make install
@@ -97,7 +97,7 @@ cat >/etc/my.cnf<<EOF
 basedir = /usr/local/mysql
 datadir = /data/mysql
 socket	= /tmp/mysql.sock
-pid-file = /var/run/mysql.pid
+pid-file = /data/mysql/mysqld.pid
 
 character-set-server = utf8
 collation-server = utf8_general_ci
