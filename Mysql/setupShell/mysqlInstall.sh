@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "===========================\n"
-printf " Mysql V5.6.23 Install     \n"
+printf " Mysql V5.6.27 Install     \n"
 printf " copyright:www.doitphp.com \n"
 printf "===========================\n"
 printf "\n\n"
