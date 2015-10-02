@@ -27,19 +27,19 @@ cd websrc
 
 printf "========= MongoDb php extension install start... =========\n\n"
 
-if [ -s mongo-1.6.1.tgz ]; then
-    echo "mongo-1.6.1.tgz [found]"
+if [ -s mongo-1.6.11.tgz ]; then
+    echo "mongo-1.6.11.tgz [found]"
 else
-    echo "mongo-1.6.1.tgz download now..."
-    wget http://pecl.php.net/get/mongo-1.6.1.tgz
+    echo "mongo-1.6.11.tgz download now..."
+    wget http://pecl.php.net/get/mongo-1.6.11.tgz
 fi
 
-if [ -s mongo-1.6.1 ]; then
-    rm -rf mongo-1.6.1
+if [ -s mongo-1.6.11 ]; then
+    rm -rf mongo-1.6.11
 fi
-tar zxvf mongo-1.6.1.tgz
+tar zxvf mongo-1.6.11.tgz
 
-cd mongo-1.6.1
+cd mongo-1.6.11
 export PHP_AUTOCONF="/usr/local/bin/autoconf"
 export PHP_AUTOHEADER="/usr/local/bin/autoheader"
 /usr/local/php5/bin/phpize
