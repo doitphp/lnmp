@@ -16,7 +16,7 @@ mongodb-yumInstall.sh	Mongodb2.0的yum安装
 /usr/local/mongodb
 
 执行文件: /usr/local/mongodb/bin/mongod
-Pid: /usr/local/mongodb/logs/mongod.pid
+Pid: /var/run/mongod.pid
 
 二、配置文件
 1、文件目录
