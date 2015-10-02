@@ -20,6 +20,9 @@ fi
 
 printf "=== commond library yum install start ===\n\n"
 
+yum clean all
+yum makecache
+
 isWget=`whereis wget|awk '{print $2}'`
 if [ "$isWget" == "" ]; then
     yum -y install wget
