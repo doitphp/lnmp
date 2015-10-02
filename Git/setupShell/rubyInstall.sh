@@ -24,22 +24,22 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s ruby-2.2.1.tar.gz ]; then
-    echo "ruby-2.2.1.tar.gz [found]"
+if [ -s ruby-2.2.3.tar.gz ]; then
+    echo "ruby-2.2.3.tar.gz [found]"
 else
-    echo "ruby-2.2.1.tar.gz download now..."
-    wget http://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.1.tar.gz
+    echo "ruby-2.2.3.tar.gz download now..."
+    wget https://cache.ruby-lang.org/pub/ruby/2.2/ruby-2.2.3.tar.gz
 fi
 
-if [ -s ruby-2.2.1 ]; then
-    rm -rf ruby-2.2.1
+if [ -s ruby-2.2.3 ]; then
+    rm -rf ruby-2.2.3
 fi
-tar zxvf ruby-2.2.1.tar.gz
+tar zxvf ruby-2.2.3.tar.gz
 
 printf "\n========= source package download completed =========\n\n"
 printf "========= Ruby install start... =========\n\n"
 
-cd ruby-2.2.1
+cd ruby-2.2.3
 ./configure --disable-install-rdoc
 make -j 8
 make install

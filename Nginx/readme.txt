@@ -1,5 +1,5 @@
 
-Nginx V1.9.0 安装说明
+Nginx V1.9.5 安装说明
 
 软件用途：WebServer
 

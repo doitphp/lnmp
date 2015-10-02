@@ -1,5 +1,5 @@
 
-MongoDB V2.6.7 安装说明
+MongoDB V3.0.6 安装说明
 
 软件用途：Database
 

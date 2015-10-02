@@ -1,5 +1,5 @@
 
-Redis V2.8.19 安装说明
+Redis V3.0.4 安装说明
 
 软件用途：NoSql Database
 

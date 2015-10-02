@@ -5,27 +5,27 @@
 
 各软件列表:
 
-Nginx V1.9.0
-Tengine V2.1
+Nginx V1.9.5
+Tengine V2.1.1
 
-PHP V5.5与V5.6
+PHP V5.5.21与V5.6.13
 PHP扩展：memcache, memcached, redis, mongodb, xhprof, yafphp, xdebug, imagick
 
-Mysql V5.6.23
-MariaDB V10.0.14
-Percona Server V5.6.22
+Mysql V5.6.27
+MariaDB V10.0.21
+Percona Server V5.6.26
 
-Memcached V1.4.22
-Redis V3.0.1
-MongoDB V2.6.7
+Memcached V1.4.24
+Redis V3.0.4
+MongoDB V3.0.6
 
 Coreseek V3.2.14
 ImageMagic V6.8.9-10
 Rsync V3.1.0
 
-Git V2.3.1
+Git V2.6.0
 Gitolite v3.6.2
 GitLab V7.8.1
-Ruby V2.2.1
+Ruby V2.2.3
 
 注：如果安装上述软件需要先运行Init中安装脚本：baseInstall.sh 先把编译软件时所需的基本类库等软件安装好。

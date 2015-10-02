@@ -1,5 +1,5 @@
 
-Memcached V1.4.22 安装说明
+Memcached V1.4.24 安装说明
 
 软件用途：NoSql Database
 

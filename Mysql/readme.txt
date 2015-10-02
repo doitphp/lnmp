@@ -1,5 +1,5 @@
 
-Mysql V5.6.23 安装说明
+Mysql V5.6.27 安装说明
 
 软件用途：Database
 
