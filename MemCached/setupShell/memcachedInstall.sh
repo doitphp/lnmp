@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "============================\n"
-printf " Memcached 1.4.22 Install   \n"
+printf " Memcached 1.4.24 Install   \n"
 printf " copyright:www.doitphp.com  \n"
 printf "============================\n"
 printf "\n\n"
