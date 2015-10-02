@@ -55,6 +55,7 @@ printf "\nThe result of selinx configure file is :\n\n"
 cat /etc/sysconfig/selinux
 
 #configure iptables
+chkconfig ip6tables off
 printf "\ncheck iptables status :\n"
 service iptables status
 
@@ -143,6 +144,22 @@ cat /etc/rc.local
 
 printf "\ncat /etc/crontab :\n"
 cat /etc/crontab 
+
+postfixExisTs=`chkconfig --list | grep postfix | grep 5:on | wc -l`
+if [ "$postfixExisTs" == "1" ]; then
+	read -p "Do you want to close postfix?[y/n]:" postfixUsed
+	if [ "$postfixUsed" == "y" ] || [ "$postfixUsed" == "Y" ]; then
+		chkconfig postfix off
+
+	fi	
+fi
+sendmailExisTs=`chkconfig --list | grep sendmail | grep 5:on | wc -l`
+if [ "$sendmailExisTs" == "1" ]; then
+	read -p "Do you want to close sendmail?[y/n]:" postfixUsed
+	if [ "$postfixUsed" == "y" ] || [ "$postfixUsed" == "Y" ]; then
+		chkconfig sendmail off
+	fi	
+fi
 
 #set vim editor 1tab=4space
 printf "\nconfigure vim editor 1tab=4space :\n"
