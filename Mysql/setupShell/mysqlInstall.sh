@@ -50,6 +50,8 @@ chown -R mysql:mysql /data/mysql
 
 mkdir -p /usr/local/mysql
 mkdir -m 0777 -p /var/log/mysql
+mkdir -m 0777 -p /var/run/mysqld
+chown -R mysql:mysql /var/run/mysqld
 
 printf "========= Cmake install start... =========\n\n"
 
@@ -97,7 +99,7 @@ cat >/etc/my.cnf<<EOF
 basedir = /usr/local/mysql
 datadir = /data/mysql
 socket	= /tmp/mysql.sock
-pid-file = /data/mysql/mysqld.pid
+pid-file = /var/run/mysqld/mysqld.pid
 
 character-set-server = utf8
 collation-server = utf8_general_ci
