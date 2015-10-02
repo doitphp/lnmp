@@ -1,99 +1,65 @@
-#!/bin/bash
-
-# mongod - Startup script for mongod
-
-# chkconfig: 35 85 15
-# description: Mongo is a scalable, document-oriented database.
+#!/bin/sh
+#
+# MongoDB		Startup script for MongoDB
+#
 # processname: mongod
-# config: /etc/mongod.conf
-# pidfile: /var/run/mongodb/mongod.pid
+# config: /etc/mongod/mongod.conf
+# config: /etc/sysconfig/mongod
+# pidfile: /var/run/mongod.pid
+#
+mongod=/usr/local/mongodb/bin/mongod
+configFile=/usr/local/mongodb/etc/mongodb.conf
+mongodPid=/var/run/mongod.pid
+RETVAL=0
+prog="MongoDB"
 
+# Source function library.
 . /etc/rc.d/init.d/functions
-
-# things from mongod.conf get there by mongod reading it
-
-
-# NOTE: if you change any OPTIONS here, you get what you pay for:
-# this script assumes all options are in the config file.
-CONFIGFILE="/usr/local/mongodb/etc/mongodb.conf"
-OPTIONS=" -f $CONFIGFILE"
-
-# FIXME: 1.9.x has a --shutdown flag that parses the config file and
-# shuts down the correct running pid, but that's unavailable in 1.8
-# for now.  This can go away when this script stops supporting 1.8.
-PIDFILE=/var/run/mongod.pid
-
-mongod="/usr/local/mongodb/bin/mongod"
-
-MONGO_USER=mongod
-MONGO_GROUP=mongod
-
-# Handle NUMA access to CPUs (SERVER-3574)
-# This verifies the existence of numactl as well as testing that the command works
-NUMACTL_ARGS="--interleave=all"
-if which numactl >/dev/null 2>/dev/null && numactl $NUMACTL_ARGS ls / >/dev/null 2>/dev/null
-then
-    NUMACTL="numactl $NUMACTL_ARGS"
-else
-    NUMACTL=""
+# Source networking configuration.
+. /etc/sysconfig/network
+# Check that networking is up.
+[ ${NETWORKING} = "no" ] && exit 0
+[ -x $mongod ] || exit 0
+# Start MongoDB daemons functions.
+start() {
+if [ -e $mongodPid ];then
+   echo "MongoDB already running...."
+   exit 1
 fi
-
-start()
-{
-  # Recommended ulimit values for mongod or mongos
-  # See http://docs.mongodb.org/manual/reference/ulimit/#recommended-settings
-  #
-  ulimit -f unlimited
-  ulimit -t unlimited
-  ulimit -v unlimited
-  ulimit -n 64000
-  ulimit -m unlimited
-  ulimit -u 32000
-
-  echo -n $"Starting mongod: "
-  daemon --user "$MONGO_USER" --check $mongod "$NUMACTL $mongod $OPTIONS >/dev/null 2>&1"
-  RETVAL=$?
-  echo
-  [ $RETVAL -eq 0 ] && touch /var/lock/subsys/mongod
+   echo -n $"Starting $prog: "
+   daemon $mongod -f ${configFile}
+   RETVAL=$?
+   echo
+   [ $RETVAL = 0 ] && touch /var/lock/subsys/mongod
+   return $RETVAL
 }
-
-stop()
-{
-  echo -n $"Stopping mongod: "
-  killproc -p "$PIDFILE" -d 300 /usr/local/mongodb/bin/mongod
-  RETVAL=$?
-  echo
-  [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/mongod
+# Stop MongoDB daemons functions.
+stop() {
+	echo -n $"Stopping $prog: "
+	killproc $mongod
+	RETVAL=$?
+	echo
+	[ $RETVAL = 0 ] && rm -f /var/lock/subsys/mongod /var/run/mongod.pid
 }
-
-restart () {
+# See how we were called.
+case "$1" in
+start)
+	start
+	;;
+stop)
+	stop
+	;;
+restart)
 	stop
 	start
-}
+	;;
 
-
-RETVAL=0
-
-case "$1" in
-  start)
-    start
-    ;;
-  stop)
-    stop
-    ;;
-  restart|reload|force-reload)
-    restart
-    ;;
-  condrestart)
-    [ -f /var/lock/subsys/mongod ] && restart || :
-    ;;
-  status)
-    status $mongod
-    RETVAL=$?
-    ;;
-  *)
-    echo "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
-    RETVAL=1
+status)
+	status $prog
+	RETVAL=$?
+	;;
+*)
+	echo $"Usage: $prog {start|stop|restart|reload|status|help}"
+	exit 1
 esac
-
 exit $RETVAL
