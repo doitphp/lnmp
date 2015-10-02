@@ -168,6 +168,11 @@ if [ "$raidClosed" == "y" ] || [ "$raidClosed" == "Y" ]; then
 	chkconfig udev-post off
 fi
 
+read -p "Do you want to close nfs service?[y/n]:" nfsClosed
+if [ "$nfsClosed" == "y" ] || [ "$nfsClosed" == "Y" ]; then
+	chkconfig netfs off
+fi
+
 #set vim editor 1tab=4space
 printf "\nconfigure vim editor 1tab=4space :\n"
 if [ ! -f /root/.vimrc ]; then
