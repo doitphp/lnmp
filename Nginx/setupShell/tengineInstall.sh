@@ -106,7 +106,7 @@ else
 
     isSet=`grep "/usr/local/lib" /etc/ld.so.conf | wc -l`
     if [ "$isSet" != "1" ]; then
-       echo "/usr/local/lib">>/etc/ld.so.conf       
+       echo "/usr/local/lib">>/etc/ld.so.conf
     fi
     ldconfig
 fi
