@@ -22,11 +22,11 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s pcre-8.36.tar.gz ]; then
-    echo "pcre-8.36.tar.gz [found]"
+if [ -s pcre-8.37.tar.bz2 ]; then
+    echo "pcre-8.37.tar.bz2 [found]"
 else
-    echo "pcre-8.36.tar.gz download now..."
-	wget http://softlayer-sng.dl.sourceforge.net/project/pcre/pcre/8.36/pcre-8.36.tar.gz
+    echo "pcre-8.37.tar.bz2 download now..."
+	wget http://ncu.dl.sourceforge.net/project/pcre/pcre/8.37/pcre-8.37.tar.bz2
 fi
 
 if [ -s nginx-1.9.5.tar.gz ]; then
@@ -49,10 +49,10 @@ else
     wget http://wiki.nginx.org/images/5/51/Nginx-accesskey-2.0.3.tar.gz
 fi
 
-if [ -s pcre-8.36 ]; then
-    rm -rf pcre-8.36   
+if [ -s pcre-8.37 ]; then
+    rm -rf pcre-8.37   
 fi
-tar zxvf pcre-8.36.tar.gz
+tar zxvf pcre-8.37.tar.gz
 
 if [ -s nginx-1.9.5 ]; then
     rm -rf nginx-1.9.5
@@ -86,7 +86,7 @@ printf "========= pcre install start... =========\n\n"
 if [ -s /usr/local/bin/pcregrep ]; then
     echo "pcre has been installed.";
 else
-	cd pcre-8.36
+	cd pcre-8.37
 	./configure --prefix=/usr/local
 	make
 	make install
@@ -99,21 +99,21 @@ printf "========= check jemalloc whether installed start... =========\n\n"
 if [ -s /usr/local/lib/libjemalloc.so ]; then
     echo "jemalloc has been installed.";
 else
-    if [ -s jemalloc-3.6.0.tar.bz2 ]; then
-        echo "jemalloc-3.6.0.tar.bz2 [found]"
+    if [ -s jemalloc-4.0.3.tar.bz2 ]; then
+        echo "jemalloc-4.0.3.tar.bz2 [found]"
     else
-        echo "jemalloc-3.6.0.tar.bz2 download now..."
-        wget http://www.canonware.com/download/jemalloc/jemalloc-3.6.0.tar.bz2
+        echo "jemalloc-4.0.3.tar.bz2 download now..."
+        wget http://www.canonware.com/download/jemalloc/jemalloc-4.0.3.tar.bz2		
     fi
 
-    if [ -s jemalloc-3.6.0 ]; then
-        rm -rf jemalloc-3.6.0
+    if [ -s jemalloc-4.0.3 ]; then
+        rm -rf jemalloc-4.0.3
     fi
-    tar jxvf jemalloc-3.6.0.tar.bz2
+    tar jxvf jemalloc-4.0.3.tar.bz2
 
     printf "========= jemalloc install start... =========\n\n"
 
-    cd jemalloc-3.6.0
+    cd jemalloc-4.0.3
     ./configure --prefix=/usr/local
     make -j 4
     make install
@@ -132,7 +132,7 @@ printf "\n========= check jemalloc whether installed Completed! =========\n\n"
 printf "========= Nginx install start... =========\n\n"
 
 cd nginx-1.9.5
-./configure --prefix=/usr/local/nginx --user=www --group=www --without-http_memcached_module --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_sub_module --with-http_realip_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module --with-http_mp4_module --with-http_flv_module --with-ld-opt="-ljemalloc" --with-pcre=../pcre-8.36 --add-module=../nginx-accesskey-2.0.3
+./configure --prefix=/usr/local/nginx --user=www --group=www --without-http_memcached_module --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_sub_module --with-http_realip_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module --with-http_mp4_module --with-http_flv_module --with-ld-opt="-ljemalloc" --with-pcre=../pcre-8.37 --add-module=../nginx-accesskey-2.0.3
 make
 make install
 cd -

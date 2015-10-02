@@ -82,21 +82,21 @@ printf "========= check jemalloc whether installed start... =========\n\n"
 if [ -s /usr/local/lib/libjemalloc.so ]; then
     echo "jemalloc has been installed.";
 else
-    if [ -s jemalloc-3.6.0.tar.bz2 ]; then
-        echo "jemalloc-3.6.0.tar.bz2 [found]"
+    if [ -s jemalloc-4.0.3.tar.bz2 ]; then
+        echo "jemalloc-4.0.3.tar.bz2 [found]"
     else
-        echo "jemalloc-3.6.0.tar.bz2 download now..."
-        wget http://www.canonware.com/download/jemalloc/jemalloc-3.6.0.tar.bz2
+        echo "jemalloc-4.0.3.tar.bz2 download now..."
+        wget http://www.canonware.com/download/jemalloc/jemalloc-4.0.3.tar.bz2		
     fi
 
-    if [ -s jemalloc-3.6.0 ]; then
-        rm -rf jemalloc-3.6.0
+    if [ -s jemalloc-4.0.3 ]; then
+        rm -rf jemalloc-4.0.3
     fi
-    tar jxvf jemalloc-3.6.0.tar.bz2
+    tar jxvf jemalloc-4.0.3.tar.bz2
 
     printf "========= jemalloc install start... =========\n\n"
 
-    cd jemalloc-3.6.0
+    cd jemalloc-4.0.3
     ./configure --prefix=/usr/local
     make -j 4
     make install
