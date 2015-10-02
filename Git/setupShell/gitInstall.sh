@@ -18,6 +18,8 @@ if [ ! -s websrc ]; then
     exit 1
 fi
 
+yum -y install perl-ExtUtils-MakeMaker package tcl build-essential tk
+
 cd websrc
 
 printf "\n========= source package download start =========\n\n"

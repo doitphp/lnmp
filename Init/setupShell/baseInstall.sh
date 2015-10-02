@@ -28,7 +28,7 @@ if [ "$isWget" == "" ]; then
     yum -y install wget
 fi
 
-yum -y install openssl openssl-devel gcc gcc-c++ autoconf automake bison pcre make sysstat
+yum -y install openssl openssl-devel gcc gcc-c++ autoconf automake bison pcre make sysstat gettext dos2unix
 yum -y install libxml2 libxml2-devel libXpm libXpm-devel libcurl libcurl-devel zlib zlib-devel curl curl-devel gd gd-devel gd2 gd2-devel freetype freetype-devel libjpeg libjpeg-devel libpng libpng-devel libidn libidn-devel ncurses ncurses-devel glibc glibc-devel glib2 glib2-devel bzip2 bzip2-devel e2fsprogs e2fsprogs-devel krb5 krb5-devel openldap openldap-devel nss_ldap openldap-clients openldap-servers
 
 if [ ! -s /usr/lib/libXpm.so ]; then

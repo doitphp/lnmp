@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "============================\n"
-printf " Ruby V2.2.1 Install	    \n"
+printf " Ruby V2.2.3 Install	    \n"
 printf " copyright: www.doitphp.com \n"
 printf "============================\n"
 printf "\n\n"
