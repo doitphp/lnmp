@@ -79,7 +79,6 @@ chown -R redis:redis /data/redis
 chmod 0777 -R /var/log/redis
 
 mkdir -p /usr/local/redis/etc
-mkdir -p /usr/local/redis/logs
 
 cd redis-2.8.20
 make PREFIX=/usr/local/redis test
@@ -98,7 +97,6 @@ cp ./redis.conf /usr/local/redis/etc/redis.conf
 cd -
 
 sed -i 's/^daemonize no/daemonize yes/g' /usr/local/redis/etc/redis.conf
-sed -i 's/^pidfile \/var\/run\/redis.pid/pidfile \/usr\/local\/redis\/logs\/redis.pid/g' /usr/local/redis/etc/redis.conf
 sed -i 's/^dir .\//dir \/data\/redis/g' /usr/local/redis/etc/redis.conf
 sed -i 's/^logfile ""/logfile \/var\/log\/redis\/redislog/g' /usr/local/redis/etc/redis.conf
 

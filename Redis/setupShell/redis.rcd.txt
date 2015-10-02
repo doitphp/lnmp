@@ -10,7 +10,7 @@
 #
 redisd=/usr/local/redis/bin/redis-server
 redis_config=/usr/local/redis/etc/redis.conf
-redis_pid=/usr/local/redis/logs/redis.pid
+redis_pid=/var/run/redis.pid
 RETVAL=0
 prog="redis"
 # Source function library.
