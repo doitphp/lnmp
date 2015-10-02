@@ -131,6 +131,10 @@ rest = true
 # Disable data file preallocation.
 #noprealloc=true
 
+nounixsocket = false
+unixSocketPrefix = /tmp
+socketTimeout = 0
+
 # Specify .ns file size for new databases.
 nssize=16
 
