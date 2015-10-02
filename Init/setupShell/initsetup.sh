@@ -136,7 +136,7 @@ fi
 
 is_crontab_exists=`grep "/usr/sbin/ntpdate" /etc/crontab | wc -l`
 if [ "$is_crontab_exists" == "0" ]; then
-    echo "1	0,12	*	*	*	root	/usr/sbin/ntpdate us.pool.ntp.org >/dev/null">>/etc/crontab
+    echo "1	*	*	*	*	root	/usr/sbin/ntpdate us.pool.ntp.org >/dev/null">>/etc/crontab
 fi
 
 printf "\ncat /etc/rc.local :\n"
@@ -161,6 +161,13 @@ if [ "$sendmailExisTs" == "1" ]; then
 	fi	
 fi
 
+read -p "Do you want to close RAID service?[y/n]:" raidClosed
+if [ "$raidClosed" == "y" ] || [ "$raidClosed" == "Y" ]; then
+	chkconfig blk-availability off
+	chkconfig lvm2-monitor off
+	chkconfig udev-post off
+fi
+
 #set vim editor 1tab=4space
 printf "\nconfigure vim editor 1tab=4space :\n"
 if [ ! -f /root/.vimrc ]; then
@@ -174,5 +181,8 @@ set autoindent
 set cindent
 EOF
 fi
+
+#close Control-Alt-Deletepressed shutdown server
+sed -i 's/^exec \/sbin\/shutdown/#exec \/sbin\/shutdown/g' /etc/init/control-alt-delete.conf
 
 printf "============== The End. ==============\n"

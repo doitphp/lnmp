@@ -38,8 +38,7 @@ if [ ! -s /usr/lib/libldap.so ]; then
 	ln -s /usr/lib64/libldap.* /usr/lib
 fi
 
-printf "\n=== commond library yum install Completed! ===\n\n ulimit -n:\n"
-ulimit -n
+printf "\n=== commond library yum install Completed! ===\n\n"
 
 isExists=`grep '* soft nofile 65535' /etc/security/limits.conf | wc -l`
 if [ "$isExists" != "1" ]; then
