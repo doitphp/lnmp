@@ -67,86 +67,17 @@ fi
 
 cat >/usr/local/mongodb/etc/mongodb.conf<<EOF
 # mongod.conf
-
-# location of pidfile
-pidfilepath=/var/run/mongod.pid
-
-#where to log
-logpath=/var/log/mongodb/mongodb.log
-
-logappend=true
-
-# fork and run in background
-fork=true
 port=27017
 dbpath=/data/mongodb
 maxConns = 1024
-
-# Listen to local interface only. Comment out to listen on all interfaces. 
-bind_ip=127.0.0.1
-
-# Disables write-ahead journaling
-# nojournal=true
-
-# Enables periodic logging of CPU utilization and I/O wait
-#cpu=true
-
-# Turn on/off security.  Off is currently the default
 noauth=true
 #auth=true
-
-# Verbose logging output.
-#verbose=true
-
-# Inspect all client data for validity on receipt (useful for
-# developing drivers)
-#objcheck=true
-
-# Enable db quota management
+pidfilepath=/var/run/mongod.pid
+bind_ip=127.0.0.1
+logpath=/var/log/mongodb/mongodb.log
+logappend=true
 quota=true
 quotaFiles = 1024
-rest = true
-
-# Set oplogging level where n is
-#   0=off (default)
-#   1=W
-#   2=R
-#   3=both
-#   7=W+some reads
-#diaglog=0
-
-# Ignore query hints
-#nohints=true
-
-# Enable the HTTP interface (Defaults to port 28017).
-#httpinterface=true
-
-# Turns off server-side scripting.  This will result in greatly limited
-# functionality
-#noscripting=true
-
-# Turns off table scans.  Any query that would do a table scan fails.
-#notablescan=true
-
-# Disable data file preallocation.
-#noprealloc=true
-
-nounixsocket = false
-unixSocketPrefix = /tmp
-socketTimeout = 0
-
-# Specify .ns file size for new databases.
-nssize=16
-
-# Replication Options
-
-# in replicated mongo databases, specify the replica set name here
-#replSet=setname
-# maximum size in megabytes for replication operation log
-#oplogSize=1024
-# path to a key file storing authentication info for connections
-# between replica set members
-#keyFile=/path/to/keyfile
 EOF
 
 cp ../mongodb.rcd.txt /etc/init.d/mongod

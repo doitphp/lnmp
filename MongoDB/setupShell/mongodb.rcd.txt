@@ -10,7 +10,7 @@
 . /etc/rc.d/init.d/functions
 # things from mongod.conf get there by mongod reading it
 
-OPTIONS=" --dbpath=/data/mongodb --logpath=/var/log/mongodb/mongodb.log --logappend &"
+OPTIONS=" -f /usr/local/mongodb/etc/mongodb.conf --logappend &"
 #mongod
 mongod="/usr/local/mongodb/bin/mongod"
 lockfile=/var/lock/subsys/mongod
