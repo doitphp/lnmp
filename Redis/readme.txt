@@ -15,8 +15,8 @@ redisInstall.sh redis编译安装
 /usr/local/redis
 
 执行文件: /usr/local/redis/bin/redis-server
-Pid: /var/run/redis.pid
-套接文件：/tmp/redis.sock
+Pid: /var/run/redis/redis.pid
+套接文件：/var/run/redis/redis.sock
 
 二、配置文件
 1、文件目录
