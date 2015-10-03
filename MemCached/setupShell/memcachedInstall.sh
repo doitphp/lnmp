@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "============================\n"
-printf " Memcached 1.4.22 Install   \n"
+printf " Memcached 1.4.24 Install   \n"
 printf " copyright:www.doitphp.com  \n"
 printf "============================\n"
 printf "\n\n"
@@ -47,19 +47,19 @@ if [ ! -f /usr/local/lib/libevent.so ]; then
 	fi
 fi
 
-if [ -s memcached-1.4.22.tar.gz ]; then
-    echo "memcached-1.4.22.tar.gz [found]"
+if [ -s memcached-1.4.24.tar.gz ]; then
+    echo "memcached-1.4.24.tar.gz [found]"
 else
-    echo "memcached-1.4.22.tar.gz download now..."
-    wget http://memcached.org/files/memcached-1.4.22.tar.gz
+    echo "memcached-1.4.24.tar.gz download now..."
+    wget http://www.memcached.org/files/memcached-1.4.24.tar.gz	
 fi
 
-if [ -s memcached-1.4.22 ]; then
-    rm -rf memcached-1.4.22
+if [ -s memcached-1.4.24 ]; then
+    rm -rf memcached-1.4.24
 fi
-tar zxvf memcached-1.4.22.tar.gz
+tar zxvf memcached-1.4.24.tar.gz
 
-cd memcached-1.4.22
+cd memcached-1.4.24
 ./configure --prefix=/usr/local/memcached --with-libevent=/usr/local
 make
 make install
@@ -85,7 +85,7 @@ PORT="11211"
 USER="memcached"
 MAXCONN="1024"
 CACHESIZE="256"
-OPTIONS="127.0.0.1"
+OPTIONS="-a 0766 -s /var/run/memcached/memcache.socket"
 EOF
 
 cp ../memcached.rcd.txt /etc/rc.d/init.d/memcached

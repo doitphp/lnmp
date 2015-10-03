@@ -1,5 +1,5 @@
 
-Redis V2.8.19 安装说明
+Redis V3.0.4 安装说明
 
 软件用途：NoSql Database
 
@@ -15,7 +15,8 @@ redisInstall.sh redis编译安装
 /usr/local/redis
 
 执行文件: /usr/local/redis/bin/redis-server
-Pid: /usr/local/redis/logs/redis.pid
+Pid: /var/run/redis/redis.pid
+套接文件：/var/run/redis/redis.sock
 
 二、配置文件
 1、文件目录

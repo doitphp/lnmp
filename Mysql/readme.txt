@@ -1,5 +1,5 @@
 
-Mysql V5.6.23 安装说明
+Mysql V5.6.27 安装说明
 
 软件用途：Database
 
@@ -21,7 +21,8 @@ mysqlbackup.sh						mysqldump备份数据自动化脚本(非安装文件)
 /usr/local/mysql
 
 执行文件: /usr/local/mysql/bin/mysql
-Pid: /data/mysql/mysql.pid
+Pid: /var/run/mysqld/mysql.pid
+套接文件：/var/run/mysqld/mysql.sock
 
 二、配置文件
 1、文件目录

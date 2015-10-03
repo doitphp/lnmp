@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "===========================\n"
-printf " PHP 5.6.5 Install	       \n"
+printf " PHP 5.6.13 Install	       \n"
 printf "copyright: www.doitphp.com \n"
 printf "===========================\n"
 printf "\n\n"
@@ -22,23 +22,23 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s php-5.6.5.tar.bz2 ]; then
-    echo "php-5.6.5.tar.bz2 [found]"
+if [ -s php-5.6.13.tar.bz2 ]; then
+    echo "php-5.6.13.tar.bz2 [found]"
 else
-    echo "php-5.6.5.tar.bz2 download now..."
-    wget http://www.php.net/distributions/php-5.6.5.tar.bz2
+    echo "php-5.6.13.tar.bz2 download now..."
+    wget http://www.php.net/distributions/php-5.6.13.tar.bz2
 fi
 
-phpMd5=`md5sum php-5.6.5.tar.bz2 | awk '{print $1}'`
-if [ "$phpMd5" != "64d0debf42bfff537d891e1fe1a4b65c" ]; then
-    echo "Error: php-5.6.5.tar.bz2 package md5 value is invalid. Please check package download url";
+phpMd5=`md5sum php-5.6.13.tar.bz2 | awk '{print $1}'`
+if [ "$phpMd5" != "64d9a82068e3b0bbb16c261261391172" ]; then
+    echo "Error: php-5.6.13.tar.bz2 package md5 value is invalid. Please check package download url";
     exit 1
 fi
 
-if [ -s php-5.6.5 ]; then
-    rm -rf php-5.6.5
+if [ -s php-5.6.13 ]; then
+    rm -rf php-5.6.13
 fi
-tar jxvf php-5.6.5.tar.bz2
+tar jxvf php-5.6.13.tar.bz2
 
 printf "\n========= source package download completed =========\n\n"
 printf "========= zlib install start... =========\n\n"
@@ -48,7 +48,7 @@ if [ ! -f /usr/local/lib/libz.so ]; then
 		echo "zlib-1.2.8.tar.gz [found]"
 	else
 		echo "zlib-1.2.8.tar.gz download now..."
-		wget http://cznic.dl.sourceforge.net/project/libpng/zlib/1.2.8/zlib-1.2.8.tar.gz
+		wget http://sourceforge.net/projects/libpng/files/zlib/1.2.8/zlib-1.2.8.tar.gz
 	fi
 
 	if [ -s zlib-1.2.8 ]; then
@@ -380,7 +380,7 @@ fi
 printf "\n========== autoconf install end ==========\n\n"
 printf "========= PHP install start... =========\n\n"
 
-cd php-5.6.5
+cd php-5.6.13
 ./configure --prefix=/usr/local/php5 --with-config-file-path=/usr/local/php5/etc --with-mysql=mysqlnd --with-mysqli=mysqlnd --with-pdo-mysql=mysqlnd --with-gd=/usr/local --with-iconv-dir=/usr/local --with-freetype-dir=/usr/local --with-jpeg-dir=/usr/local --with-png-dir=/usr/local --with-zlib --with-xmlrpc --with-curl --with-openssl --with-mcrypt=/usr/local --with-mhash --with-gettext --with-ldap --with-ldap-sasl --without-pear --enable-xml --enable-session --enable-sockets --enable-zip --enable-mbstring --enable-bcmath --enable-shmop --enable-soap --enable-sysvsem --enable-inline-optimization --enable-mbregex --enable-fpm --enable-ftp --enable-pcntl --enable-gd-native-ttf --disable-rpath --enable-maintainer-zts --enable-opcache --enable-calendar
 make -j 4 ZEND_EXTRA_LIBS='-liconv'
 make test
@@ -436,7 +436,7 @@ if [ "$isExists" == "0" ]; then
 	fi
 fi
 
-read -p "Please make sure this server is production server, High security level?[y/n]:" isproduction
+read -p "Please make sure this server is production server?[y/n]:" isproduction
 if [ "$isproduction" == "y" ] || [ "$isproduction" == "Y" ]; then
 	if [ ! -s /www/logs/nginx ]; then
 		mkdir -m 0777 -p /www/logs/nginx
@@ -458,6 +458,17 @@ fi
 sed -i 's/^user = nobody/user = www/g' /usr/local/php5/etc/php-fpm.conf
 sed -i 's/^group = nobody/group = www/g' /usr/local/php5/etc/php-fpm.conf
 sed -i 's/^;rlimit_files = 1024/rlimit_files = 65535/g' /usr/local/php5/etc/php-fpm.conf
+
+sed -i 's/^pm.max_children = 5/pm.max_children = 512/g' /usr/local/php5/etc/php-fpm.conf
+sed -i 's/^pm.start_servers = 2/pm.start_servers = 32/g' /usr/local/php5/etc/php-fpm.conf
+sed -i 's/^pm.min_spare_servers = 1/pm.min_spare_servers = 32/g' /usr/local/php5/etc/php-fpm.conf
+sed -i 's/^pm.max_spare_servers = 3/pm.max_spare_servers = 512/g' /usr/local/php5/etc/php-fpm.conf
+
+memery=`free -g | awk '/Mem:/{print $2}'`
+if [ "$memery" -gt 3 ]; then
+	sed -i 's/^pm = dynamic/pm = static/g' /usr/local/php5/etc/php-fpm.conf
+	sed -i 's/^pm.max_children = 512/pm.max_children = 1024/g' /usr/local/php5/etc/php-fpm.conf
+fi
 
 printf "\n========== PHP install Completed! ========\n\n"
 ps aux | grep php | grep -v "grep"

@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "===========================\n"
-printf " Mysql V5.6.23 Install     \n"
+printf " Mysql V5.6.27 Install     \n"
 printf " copyright:www.doitphp.com \n"
 printf "===========================\n"
 printf "\n\n"
@@ -22,23 +22,23 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s mysql-5.6.23.tar.gz ]; then
-  echo "mysql-5.6.23.tar.gz [found]"
+if [ -s mysql-5.6.27.tar.gz ]; then
+  echo "mysql-5.6.27.tar.gz [found]"
 else
-  echo "mysql-5.6.23.tar.gz download now..."
-  wget http://cdn.mysql.com/Downloads/MySQL-5.6/mysql-5.6.23.tar.gz  
+  echo "mysql-5.6.27.tar.gz download now..."
+  wget http://cdn.mysql.com/Downloads/MySQL-5.6/mysql-5.6.27.tar.gz  
 fi
 
-mariadbMd5=`md5sum mysql-5.6.23.tar.gz | awk '{print $1}'`
-if [ "$mariadbMd5" != "60344f26eae136a267a0277407926e79" ]; then
-    echo "Error: mysql-5.6.23.tar.gz package md5 value is invalid. Please check package download url";
+mariadbMd5=`md5sum mysql-5.6.27.tar.gz | awk '{print $1}'`
+if [ "$mariadbMd5" != "7754df40bb5567b03b041ccb6b5ddffa" ]; then
+    echo "Error: mysql-5.6.27.tar.gz package md5 value is invalid. Please check package download url";
     exit 1
 fi
 
-if [ -s mysql-5.6.23 ]; then
-    rm -rf mysql-5.6.23
+if [ -s mysql-5.6.27 ]; then
+    rm -rf mysql-5.6.27
 fi
-tar zxvf mysql-5.6.23.tar.gz
+tar zxvf mysql-5.6.27.tar.gz
 
 printf "\n========= source package download completed =========\n\n"
 
@@ -49,26 +49,32 @@ mkdir -p /data/mysql
 chown -R mysql:mysql /data/mysql
 
 mkdir -p /usr/local/mysql
-mkdir -m 0777 -p /var/log/mysql
+if [ ! -d /var/log/mysql ]; then
+	mkdir -m 0777 -p /var/log/mysql
+fi
+if [ ! -d /var/run/mysqld ]; then
+	mkdir -m 0777 /var/run/mysqld
+	chown -R mysql:mysql /var/run/mysqld
+fi
 
 printf "========= Cmake install start... =========\n\n"
 
-if [ -s /usr/local/share/cmake-3.1/completions/cmake ]; then
+if [ -s /usr/local/share/cmake-3.3/completions/cmake ]; then
 	echo "cmake V3.1.2 has been installed.";
 else
-	if [ -s cmake-3.1.2.tar.gz ]; then
-		echo "cmake-3.1.2.tar.gz [found]"
+	if [ -s cmake-3.3.2.tar.gz ]; then
+		echo "cmake-3.3.2.tar.gz [found]"
 	else
-		echo "cmake-3.1.2.tar.gz download now..."
-		wget http://www.cmake.org/files/v3.1/cmake-3.1.2.tar.gz
+		echo "cmake-3.3.2.tar.gz download now..."
+		wget https://cmake.org/files/v3.3/cmake-3.3.2.tar.gz		
 	fi
 
-	if [ -s cmake-3.1.2 ]; then
-		rm -rf cmake-3.1.2 
+	if [ -s cmake-3.3.2 ]; then
+		rm -rf cmake-3.3.2 
 	fi
-	tar zxvf cmake-3.1.2.tar.gz
+	tar zxvf cmake-3.3.2.tar.gz
 
-	cd cmake-3.1.2
+	cd cmake-3.3.2
 	./configure --prefix=/usr/local
 	make -j 4
 	make install
@@ -81,21 +87,21 @@ printf "========= check jemalloc whether installed start... =========\n\n"
 if [ -s /usr/local/lib/libjemalloc.so ]; then
     echo "jemalloc has been installed.";
 else
-    if [ -s jemalloc-3.6.0.tar.bz2 ]; then
-        echo "jemalloc-3.6.0.tar.bz2 [found]"
+    if [ -s jemalloc-4.0.3.tar.bz2 ]; then
+        echo "jemalloc-4.0.3.tar.bz2 [found]"
     else
-        echo "jemalloc-3.6.0.tar.bz2 download now..."
-        wget http://www.canonware.com/download/jemalloc/jemalloc-3.6.0.tar.bz2
+        echo "jemalloc-4.0.3.tar.bz2 download now..."
+        wget http://www.canonware.com/download/jemalloc/jemalloc-4.0.3.tar.bz2		
     fi
 
-    if [ -s jemalloc-3.6.0 ]; then
-        rm -rf jemalloc-3.6.0
+    if [ -s jemalloc-4.0.3 ]; then
+        rm -rf jemalloc-4.0.3
     fi
-    tar jxvf jemalloc-3.6.0.tar.bz2
+    tar jxvf jemalloc-4.0.3.tar.bz2
 
     printf "========= jemalloc install start... =========\n\n"
 
-    cd jemalloc-3.6.0
+    cd jemalloc-4.0.3
     ./configure --prefix=/usr/local
     make -j 4
     make install
@@ -105,7 +111,7 @@ else
 
     isSet=`grep "/usr/local/lib" /etc/ld.so.conf | wc -l`
     if [ "$isSet" != "1" ]; then
-        echo "/usr/local/lib">>/etc/ld.so.conf        
+       echo "/usr/local/lib">>/etc/ld.so.conf
     fi
     ldconfig
 fi
@@ -113,8 +119,8 @@ fi
 printf "\n========= check jemalloc whether installed Completed! =========\n\n"
 printf "========= MariaDB install start... =========\n\n"
 
-cd mysql-5.6.23
-cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/data/mysql -DSYSCONFDIR=/etc -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1 -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all -DCMAKE_EXE_LINKER_FLAGS='-ljemalloc' -DWITH_SAFEMALLOC=OFF
+cd mysql-5.6.27
+cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/data/mysql -DSYSCONFDIR=/etc -DMYSQL_UNIX_ADDR=/var/run/mysqld/mysql.sock -DMYSQL_TCP_PORT=3306 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1 -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all -DCMAKE_EXE_LINKER_FLAGS='-ljemalloc' -DWITH_SAFEMALLOC=OFF
 make -j 4
 make install
 cd -
@@ -131,8 +137,8 @@ cat >/etc/my.cnf<<EOF
 [mysqld]
 basedir = /usr/local/mysql
 datadir = /data/mysql
-socket	= /tmp/mysql.sock
-pid-file = /data/mysql/mysql.pid
+socket	= /var/run/mysqld/mysql.sock
+pid-file = /var/run/mysqld/mysqld.pid
 
 character-set-server = utf8
 collation-server = utf8_general_ci
@@ -167,13 +173,13 @@ long_query_time = 1
 slow_query_log
 slow_query_log_file = /var/log/mysql/mysql-slow.log
 
-max_connections = 1000
+max_connections = 1024
 bind-address= 0.0.0.0
 
 [client]
 default-character-set = utf8
 port = 3306
-socket = /tmp/mysql.sock
+socket = /var/run/mysqld/mysql.sock
 EOF
 
 cd /usr/local/mysql

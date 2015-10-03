@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "============================\n"
-printf " Nginx V1.9.0 Install	    \n"
+printf " Nginx V1.9.5 Install	    \n"
 printf " copyright: www.doitphp.com \n"
 printf "============================\n"
 printf "\n\n"
@@ -22,35 +22,35 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s pcre-8.36.tar.gz ]; then
-    echo "pcre-8.36.tar.gz [found]"
+if [ -s pcre-8.37.tar.bz2 ]; then
+    echo "pcre-8.37.tar.bz2 [found]"
 else
-    echo "pcre-8.36.tar.gz download now..."
-	wget http://softlayer-sng.dl.sourceforge.net/project/pcre/pcre/8.36/pcre-8.36.tar.gz
+    echo "pcre-8.37.tar.bz2 download now..."
+	wget http://ncu.dl.sourceforge.net/project/pcre/pcre/8.37/pcre-8.37.tar.bz2
 fi
 
-if [ -s nginx-1.9.0.tar.gz ]; then
-    echo "nginx-1.9.0.tar.gz [found]"
+if [ -s nginx-1.9.5.tar.gz ]; then
+    echo "nginx-1.9.5.tar.gz [found]"
 else
-    echo "nginx-1.9.0.tar.gz download now..."
-    wget http://nginx.org/download/nginx-1.9.0.tar.gz
+    echo "nginx-1.9.5.tar.gz download now..."
+    wget http://nginx.org/download/nginx-1.9.5.tar.gz
 fi
 
-nginxMd5=`md5sum nginx-1.9.0.tar.gz | awk '{print $1}'`
-if [ "$nginxMd5" != "487c26cf0470d8869c41a73621847268" ]; then
-    echo "Error: nginx-1.9.0.tar.gz package md5 value is invalid. Please check package download url";
+nginxMd5=`md5sum nginx-1.9.5.tar.gz | awk '{print $1}'`
+if [ "$nginxMd5" != "2562320f1535e3e31d165e337ae94f21" ]; then
+    echo "Error: nginx-1.9.5.tar.gz package md5 value is invalid. Please check package download url";
     exit 1
 fi
 
-if [ -s pcre-8.36 ]; then
-    rm -rf pcre-8.36   
+if [ -s pcre-8.37 ]; then
+    rm -rf pcre-8.37   
 fi
-tar zxvf pcre-8.36.tar.gz
+tar zxvf pcre-8.37.tar.gz
 
-if [ -s nginx-1.9.0 ]; then
-    rm -rf nginx-1.9.0
+if [ -s nginx-1.9.5 ]; then
+    rm -rf nginx-1.9.5
 fi
-tar zxvf nginx-1.9.0.tar.gz
+tar zxvf nginx-1.9.5.tar.gz
 
 printf "\n========= source package download completed =========\n\n"
 
@@ -75,7 +75,7 @@ printf "========= pcre install start... =========\n\n"
 if [ -s /usr/local/bin/pcregrep ]; then
     echo "pcre has been installed.";
 else
-	cd pcre-8.36
+	cd pcre-8.37
 	./configure --prefix=/usr/local
 	make
 	make install
@@ -85,8 +85,8 @@ fi
 printf "\n========== pcre install end =============\n\n"
 printf "========= Nginx install start... =========\n\n"
 
-cd nginx-1.9.0
-./configure --prefix=/usr/local/nginx --user=www --group=www --without-http_memcached_module --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_sub_module --with-http_realip_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module --with-pcre=../pcre-8.36
+cd nginx-1.9.5
+./configure --prefix=/usr/local/nginx --user=www --group=www --without-http_memcached_module --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_sub_module --with-http_realip_module --with-http_gunzip_module --with-http_gzip_static_module --with-http_image_filter_module --with-pcre=../pcre-8.37
 make
 make install
 cd -
@@ -189,8 +189,6 @@ http {
 		server_name localhost;
 		index  index.html index.php;
 		root   /www/htdocs/default;
-
-		#try_files $uri $uri/ /index.php?$uri&$args;
 
 		location ~ \.php\$ {
 			fastcgi_pass  127.0.0.1:9000;

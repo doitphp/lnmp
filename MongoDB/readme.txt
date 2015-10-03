@@ -1,5 +1,5 @@
 
-MongoDB V2.6.7 安装说明
+MongoDB V3.0.6 安装说明
 
 软件用途：Database
 
@@ -9,14 +9,14 @@ MongoDB V2.6.7 安装说明
 编译安装
 
 2、安装文件
-mongodbInstall.sh		Mongodb2.0源码编译安装
-mongodb-yumInstall.sh	Mongodb2.0的yum安装
+mongodbInstall.sh		MongodbV3.0.6源码编译安装
 
 3、安装目录
 /usr/local/mongodb
 
 执行文件: /usr/local/mongodb/bin/mongod
-Pid: /usr/local/mongodb/logs/mongod.pid
+Pid: /var/run/mongod/mongod.pid
+套接文件：/var/run/mongod/mongodb-27017.sock
 
 二、配置文件
 1、文件目录

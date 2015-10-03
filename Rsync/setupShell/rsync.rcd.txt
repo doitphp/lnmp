@@ -10,7 +10,7 @@
 
 rsyncd=/usr/local/rsync/bin/rsync
 rsync_config=/usr/local/rsync/etc/rsyncd.conf
-pidfile=/usr/local/rsync/logs/rsyncd.pid
+pidfile=/var/run/rsyncd.pid
 
 # Source function library.
 . /etc/rc.d/init.d/functions

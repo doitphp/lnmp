@@ -102,3 +102,6 @@ ONBOOT=yes
 附：
 查内核:	uname -r
 查系统版本: cat /etc/issue
+
+八、安装RZ SZ
+yum -y install lrzsz

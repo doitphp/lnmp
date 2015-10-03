@@ -55,6 +55,7 @@ printf "\nThe result of selinx configure file is :\n\n"
 cat /etc/sysconfig/selinux
 
 #configure iptables
+chkconfig ip6tables off
 printf "\ncheck iptables status :\n"
 service iptables status
 
@@ -81,6 +82,14 @@ if [ "$isiptables" == "y" ] || [ "$isiptables" == "Y" ]; then
 		hasSet=`grep "tcp \-\-dport 443 \-j ACCEPT" /etc/sysconfig/iptables | wc -l`
 		if [ "$hasSet" != "1" ]; then
 			sed -i '/\-A INPUT \-m state \-\-state NEW \-m tcp \-p tcp \-\-dport 22 \-j ACCEPT/ a\\-A INPUT \-m state \-\-state NEW \-m tcp \-p tcp \-\-dport 443 \-j ACCEPT' /etc/sysconfig/iptables
+		fi
+	fi
+
+	read -p "Do you want to open port 873 for rsync?[y/n]:" isopen873
+	if [ "$isopen873" == "y" ] || [ "$isopen873" == "Y" ]; then
+		hasSet=`grep "tcp \-\-dport 873 \-j ACCEPT" /etc/sysconfig/iptables | wc -l`
+		if [ "$hasSet" != "1" ]; then
+			sed -i '/\-A INPUT \-m state \-\-state NEW \-m tcp \-p tcp \-\-dport 22 \-j ACCEPT/ a\\-A INPUT \-m state \-\-state NEW \-m tcp \-p tcp \-\-dport 873 \-j ACCEPT' /etc/sysconfig/iptables
 		fi
 	fi
 
@@ -127,7 +136,7 @@ fi
 
 is_crontab_exists=`grep "/usr/sbin/ntpdate" /etc/crontab | wc -l`
 if [ "$is_crontab_exists" == "0" ]; then
-    echo "1	0,12	*	*	*	root	/usr/sbin/ntpdate us.pool.ntp.org >/dev/null">>/etc/crontab
+    echo "1	*	*	*	*	root	/usr/sbin/ntpdate us.pool.ntp.org >/dev/null">>/etc/crontab
 fi
 
 printf "\ncat /etc/rc.local :\n"
@@ -135,6 +144,34 @@ cat /etc/rc.local
 
 printf "\ncat /etc/crontab :\n"
 cat /etc/crontab 
+
+postfixExisTs=`chkconfig --list | grep postfix | grep 5:on | wc -l`
+if [ "$postfixExisTs" == "1" ]; then
+	read -p "Do you want to close postfix?[y/n]:" postfixUsed
+	if [ "$postfixUsed" == "y" ] || [ "$postfixUsed" == "Y" ]; then
+		chkconfig postfix off
+
+	fi	
+fi
+sendmailExisTs=`chkconfig --list | grep sendmail | grep 5:on | wc -l`
+if [ "$sendmailExisTs" == "1" ]; then
+	read -p "Do you want to close sendmail?[y/n]:" postfixUsed
+	if [ "$postfixUsed" == "y" ] || [ "$postfixUsed" == "Y" ]; then
+		chkconfig sendmail off
+	fi	
+fi
+
+read -p "Do you want to close RAID service?[y/n]:" raidClosed
+if [ "$raidClosed" == "y" ] || [ "$raidClosed" == "Y" ]; then
+	chkconfig blk-availability off
+	chkconfig lvm2-monitor off
+	chkconfig udev-post off
+fi
+
+read -p "Do you want to close nfs service?[y/n]:" nfsClosed
+if [ "$nfsClosed" == "y" ] || [ "$nfsClosed" == "Y" ]; then
+	chkconfig netfs off
+fi
 
 #set vim editor 1tab=4space
 printf "\nconfigure vim editor 1tab=4space :\n"
@@ -149,5 +186,8 @@ set autoindent
 set cindent
 EOF
 fi
+
+#close Control-Alt-Deletepressed shutdown server
+sed -i 's/^exec \/sbin\/shutdown/#exec \/sbin\/shutdown/g' /etc/init/control-alt-delete.conf
 
 printf "============== The End. ==============\n"

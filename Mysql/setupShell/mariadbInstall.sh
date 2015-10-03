@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "===========================\n"
-printf " MariaDB V10.0.14 Install  \n"
+printf " MariaDB V10.0.21 Install  \n"
 printf " copyright:www.doitphp.com \n"
 printf "===========================\n"
 printf "\n\n"
@@ -22,23 +22,23 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s mariadb-10.0.14.tar.gz ]; then
-  echo "mariadb-10.0.14.tar.gz [found]"
+if [ -s mariadb-10.0.21.tar.gz ]; then
+  echo "mariadb-10.0.21.tar.gz [found]"
 else
-  echo "mariadb-10.0.14.tar.gz download now..."
-  wget https://downloads.mariadb.org/interstitial/mariadb-10.0.14/source/mariadb-10.0.14.tar.gz
+  echo "mariadb-10.0.21.tar.gz download now..."
+  wget http://mariadb.biz.net.id//mariadb-10.0.21/source/mariadb-10.0.21.tar.gz
 fi
 
-mariadbMd5=`md5sum mariadb-10.0.14.tar.gz | awk '{print $1}'`
-if [ "$mariadbMd5" != "80fea71de54a9cfa7f5508df53d3f06d" ]; then
-    echo "Error: mariadb-10.0.14.tar.gz package md5 value is invalid. Please check package download url";
+mariadbMd5=`md5sum mariadb-10.0.21.tar.gz | awk '{print $1}'`
+if [ "$mariadbMd5" != "956561f3798d1fe8dfbe4b665287a87a" ]; then
+    echo "Error: mariadb-10.0.21.tar.gz package md5 value is invalid. Please check package download url";
     exit 1
 fi
 
-if [ -s mariadb-10.0.14 ]; then
-    rm -rf mariadb-10.0.14
+if [ -s mariadb-10.0.21 ]; then
+    rm -rf mariadb-10.0.21
 fi
-tar zxvf mariadb-10.0.14.tar.gz
+tar zxvf mariadb-10.0.21.tar.gz
 
 printf "\n========= source package download completed =========\n\n"
 
@@ -49,26 +49,32 @@ mkdir -p /data/mysql
 chown -R mysql:mysql /data/mysql
 
 mkdir -p /usr/local/mysql
-mkdir -m 0777 -p /var/log/mysql
+if [ ! -d /var/log/mysql ]; then
+	mkdir -m 0777 -p /var/log/mysql
+fi
+if [ ! -d /var/run/mysqld ]; then
+	mkdir -m 0777 /var/run/mysqld
+	chown -R mysql:mysql /var/run/mysqld
+fi
 
 printf "========= Cmake install start... =========\n\n"
 
-if [ -s /usr/local/share/cmake-3.1/completions/cmake ]; then
+if [ -s /usr/local/share/cmake-3.3/completions/cmake ]; then
 	echo "cmake V3.1.2 has been installed.";
 else
-	if [ -s cmake-3.1.2.tar.gz ]; then
-		echo "cmake-3.1.2.tar.gz [found]"
+	if [ -s cmake-3.3.2.tar.gz ]; then
+		echo "cmake-3.3.2.tar.gz [found]"
 	else
-		echo "cmake-3.1.2.tar.gz download now..."
-		wget http://www.cmake.org/files/v3.1/cmake-3.1.2.tar.gz
+		echo "cmake-3.3.2.tar.gz download now..."
+		wget https://cmake.org/files/v3.3/cmake-3.3.2.tar.gz		
 	fi
 
-	if [ -s cmake-3.1.2 ]; then
-		rm -rf cmake-3.1.2 
+	if [ -s cmake-3.3.2 ]; then
+		rm -rf cmake-3.3.2 
 	fi
-	tar zxvf cmake-3.1.2.tar.gz
+	tar zxvf cmake-3.3.2.tar.gz
 
-	cd cmake-3.1.2
+	cd cmake-3.3.2
 	./configure --prefix=/usr/local
 	make -j 4
 	make install
@@ -78,8 +84,8 @@ fi
 printf "\n========= Cmake install end =========\n\n"
 printf "========= MariaDB install start... =========\n\n"
 
-cd mariadb-10.0.14
-cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/data/mysql -DSYSCONFDIR=/etc -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1 -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all
+cd mariadb-10.0.21
+cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/data/mysql -DSYSCONFDIR=/etc -DMYSQL_UNIX_ADDR=/var/run/mysqld/mysql.sock -DMYSQL_TCP_PORT=3306 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1 -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all
 make -j 8
 make install
 cd -
@@ -96,8 +102,8 @@ cat >/etc/my.cnf<<EOF
 [mysqld]
 basedir = /usr/local/mysql
 datadir = /data/mysql
-socket	= /tmp/mysql.sock
-pid-file = /data/mysql/mysql.pid
+socket	= /var/run/mysqld/mysql.sock
+pid-file = /var/run/mysqld/mysqld.pid
 
 character-set-server = utf8
 collation-server = utf8_general_ci
@@ -132,13 +138,13 @@ long_query_time = 1
 slow_query_log
 slow_query_log_file = /var/log/mysql/mysql-slow.log
 
-max_connections = 1000
+max_connections = 1024
 bind-address= 0.0.0.0
 
 [client]
 default-character-set = utf8
 port = 3306
-socket = /tmp/mysql.sock
+socket = /var/run/mysqld/mysql.sock
 EOF
 
 cd /usr/local/mysql

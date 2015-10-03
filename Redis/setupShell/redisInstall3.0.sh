@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "==========================\n"
-printf " redis v3.0.1 Install	  \n"
+printf " redis v3.0.4 Install	  \n"
 printf " copyright:www.doitphp.com \n"
 printf "==========================\n"
 printf "\n\n"
@@ -22,15 +22,15 @@ cd websrc
 
 printf "\n========= source package download start =========\n\n"
 
-if [ -s redis-3.0.1.tar.gz ]; then
-    echo "redis-3.0.1.tar.gz [found]"
+if [ -s redis-3.0.4.tar.gz ]; then
+    echo "redis-3.0.4.tar.gz [found]"
 else
-    echo "redis-3.0.1.tar.gz download now..."
-    wget http://download.redis.io/releases/redis-3.0.1.tar.gz
+    echo "redis-3.0.4.tar.gz download now..."
+    wget http://download.redis.io/releases/redis-3.0.4.tar.gz
 fi
 
-if [ ! -f redis-3.0.1.tar.gz ]; then
-    printf "Error: redis-3.0.1.tar.gz not found!\n"
+if [ ! -f redis-3.0.4.tar.gz ]; then
+    printf "Error: redis-3.0.4.tar.gz not found!\n"
     exit 1
 fi
 
@@ -46,10 +46,10 @@ if [ ! -f tcl8.6.3-src.tar.gz ]; then
     exit 1
 fi
 
-if [ -s redis-3.0.1 ]; then
-    rm -rf redis-3.0.1
+if [ -s redis-3.0.4 ]; then
+    rm -rf redis-3.0.4
 fi
-tar zxvf redis-3.0.1.tar.gz
+tar zxvf redis-3.0.4.tar.gz
 
 if [ -s tcl8.6.3 ]; then
     rm -rf tcl8.6.3
@@ -78,10 +78,14 @@ mkdir -p /var/log/redis
 chown -R redis:redis /data/redis
 chmod 0777 -R /var/log/redis
 
-mkdir -p /usr/local/redis/etc
-mkdir -p /usr/local/redis/logs
+if [ ! -d /var/run/redis ]; then
+	mkdir -m 0777 -p /var/run/redis
+	chown -R redis:redis /var/run/redis
+fi
 
-cd redis-3.0.1
+mkdir -p /usr/local/redis/etc
+
+cd redis-3.0.4
 make PREFIX=/usr/local/redis test
 make PREFIX=/usr/local/redis install
 
@@ -98,9 +102,11 @@ cp ./redis.conf /usr/local/redis/etc/redis.conf
 cd -
 
 sed -i 's/^daemonize no/daemonize yes/g' /usr/local/redis/etc/redis.conf
-sed -i 's/^pidfile \/var\/run\/redis.pid/pidfile \/usr\/local\/redis\/logs\/redis.pid/g' /usr/local/redis/etc/redis.conf
 sed -i 's/^dir .\//dir \/data\/redis/g' /usr/local/redis/etc/redis.conf
 sed -i 's/^logfile ""/logfile \/var\/log\/redis\/redislog/g' /usr/local/redis/etc/redis.conf
+sed -i 's/^pidfile \/var\/run\/redis.pid/pidfile \/var\/run\/redis\/redis.pid/g' /usr/local/redis/etc/redis.conf
+sed -i 's/^# unixsocket \/tmp\/redis.sock/unixsocket \/var\/run\/redis\/redis.sock/g' /usr/local/redis/etc/redis.conf
+sed -i 's/^# unixsocketperm 700/unixsocketperm 755/g' /usr/local/redis/etc/redis.conf
 
 cp ../redis.rcd.txt /etc/init.d/redisd
 chmod 0755 /etc/init.d/redisd
