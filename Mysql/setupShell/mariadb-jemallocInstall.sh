@@ -169,7 +169,7 @@ long_query_time = 1
 slow_query_log
 slow_query_log_file = /var/log/mysql/mysql-slow.log
 
-max_connections = 1000
+max_connections = 1024
 bind-address= 0.0.0.0
 
 [client]
