@@ -85,7 +85,7 @@ PORT="11211"
 USER="memcached"
 MAXCONN="1024"
 CACHESIZE="256"
-OPTIONS="127.0.0.1"
+OPTIONS="-a 0766 -s /var/run/memcached/memcache.socket"
 EOF
 
 cp ../memcached.rcd.txt /etc/rc.d/init.d/memcached

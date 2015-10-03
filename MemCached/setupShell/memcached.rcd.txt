@@ -16,7 +16,7 @@ PORT=11211
 USER=memcached
 MAXCONN=1024
 CACHESIZE=256
-OPTIONS=""
+OPTIONS="-a 0766 -s /var/run/memcached/memcache.socket"
 
 if [ -f /usr/local/memcached/etc/memcached.conf ];then 
 	. /usr/local/memcached/etc/memcached.conf

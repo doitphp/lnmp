@@ -17,6 +17,7 @@ memcachedInstall.sh	原生memcached安装
 
 执行文件: /usr/local/memcached/bin/memcached
 Pid: /var/run/memcached/memcached.pid
+套接文件：/var/run/memcached/memcache.socket
 
 二、配置文件
 1、文件目录
