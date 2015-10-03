@@ -8,7 +8,7 @@ fi
 
 printf "\n"
 printf "========================================\n"
-printf " Nginx V1.9.5 + jemalloc V3.6.0 Install \n"
+printf " Nginx V1.9.5 + jemalloc V4.0.3 Install \n"
 printf " copyright: www.doitphp.com             \n"
 printf "========================================\n"
 printf "\n\n"
