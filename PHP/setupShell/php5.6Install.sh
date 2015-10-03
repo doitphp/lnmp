@@ -459,6 +459,17 @@ sed -i 's/^user = nobody/user = www/g' /usr/local/php5/etc/php-fpm.conf
 sed -i 's/^group = nobody/group = www/g' /usr/local/php5/etc/php-fpm.conf
 sed -i 's/^;rlimit_files = 1024/rlimit_files = 65535/g' /usr/local/php5/etc/php-fpm.conf
 
+sed -i 's/^pm.max_children = 5/pm.max_children = 512/g' /usr/local/php5/etc/php-fpm.conf
+sed -i 's/^pm.start_servers = 2/pm.start_servers = 32/g' /usr/local/php5/etc/php-fpm.conf
+sed -i 's/^pm.min_spare_servers = 1/pm.min_spare_servers = 32/g' /usr/local/php5/etc/php-fpm.conf
+sed -i 's/^pm.max_spare_servers = 3/pm.max_spare_servers = 512/g' /usr/local/php5/etc/php-fpm.conf
+
+memery=`free -g | awk '/Mem:/{print $2}'`
+if [ "$memery" -gt 3 ]; then
+	sed -i 's/^pm = dynamic/pm = static/g' /usr/local/php5/etc/php-fpm.conf
+	sed -i 's/^pm.max_children = 512/pm.max_children = 1024/g' /usr/local/php5/etc/php-fpm.conf
+fi
+
 printf "\n========== PHP install Completed! ========\n\n"
 ps aux | grep php | grep -v "grep"
 chkconfig --list | grep php-fpm
