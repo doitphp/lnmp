@@ -416,11 +416,11 @@ sed -i 's/^memory_limit = 128M/memory_limit = 1024M/g' /usr/local/php5/etc/php.i
 sed -i 's/^upload_max_filesize = 2M/upload_max_filesize = 8M/g' /usr/local/php5/etc/php.ini
 sed -i 's/^max_file_uploads = 20/max_file_uploads = 32/g' /usr/local/php5/etc/php.ini
 
-if [ ! -s /www/logs/php/session ]; then
-	mkdir -m 0777 -p /www/logs/php/session
-	chown www.www -R /www/logs/php
+if [ ! -s /www/tmp/php/session ]; then
+	mkdir -m 0777 -p /www/tmp/php/session
+	chown www.www -R /www/tmp/php
 fi
-sed -i 's/^;session.save_path = "\/tmp"/session.save_path = "\/www\/logs\/php\/session"/g' /usr/local/php5/etc/php.ini
+sed -i 's/^;session.save_path = "\/tmp"/session.save_path = "\/www\/logs\/tmp\/session"/g' /usr/local/php5/etc/php.ini
 
 extension_dirname=`/bin/ls /usr/local/php5/lib/php/extensions | grep 'no-debug-zts' | awk '{print $1}'`
 opcache_file="/usr/local/php5/lib/php/extensions/"$extension_dirname"/opcache.so"
@@ -438,10 +438,10 @@ fi
 
 read -p "Please make sure this server is production server?[y/n]:" isproduction
 if [ "$isproduction" == "y" ] || [ "$isproduction" == "Y" ]; then
-	if [ ! -s /www/logs/nginx ]; then
-		mkdir -m 0777 -p /www/logs/nginx
+	if [ ! -s /www/logs/php ]; then
+		mkdir -m 0777 -p /www/logs/php
 	fi
-	sed -i 's/^;error_log = syslog/error_log = \/www\/logs\/nginx\/php_error.log/g' /usr/local/php5/etc/php.ini
+	sed -i 's/^;error_log = syslog/error_log = \/www\/logs\/php\/error.log/g' /usr/local/php5/etc/php.ini
 	sed -i 's/^expose_php = On/expose_php = Off/g' /usr/local/php5/etc/php.ini
 	sed -i 's/^disable_functions =/disable_functions = system,passthru,exec,shell_exec,popen,phpinfo/g' /usr/local/php5/etc/php.ini
 else
@@ -469,6 +469,9 @@ if [ "$memery" -gt 3 ]; then
 	sed -i 's/^pm = dynamic/pm = static/g' /usr/local/php5/etc/php-fpm.conf
 	sed -i 's/^pm.max_children = 512/pm.max_children = 1024/g' /usr/local/php5/etc/php-fpm.conf
 fi
+
+sed -i 's/^;slowlog = log\/\$pool.log.slow/slowlog = \/www\/logs\/php\/slowlog.log/g' /usr/local/php5/etc/php-fpm.conf
+sed -i 's/^;request_slowlog_timeout = 0/request_slowlog_timeout = 30s/g' /usr/local/php5/etc/php-fpm.conf
 
 printf "\n========== PHP install Completed! ========\n\n"
 ps aux | grep php | grep -v "grep"
