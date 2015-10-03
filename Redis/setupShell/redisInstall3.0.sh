@@ -99,6 +99,8 @@ cd -
 sed -i 's/^daemonize no/daemonize yes/g' /usr/local/redis/etc/redis.conf
 sed -i 's/^dir .\//dir \/data\/redis/g' /usr/local/redis/etc/redis.conf
 sed -i 's/^logfile ""/logfile \/var\/log\/redis\/redislog/g' /usr/local/redis/etc/redis.conf
+sed -i 's/^# unixsocket \/tmp\/redis.sock/unixsocket \/tmp\/redis.sock/g' /usr/local/redis/etc/redis.conf
+sed -i 's/^# unixsocketperm 700/unixsocketperm 755/g' /usr/local/redis/etc/redis.conf
 
 cp ../redis.rcd.txt /etc/init.d/redisd
 chmod 0755 /etc/init.d/redisd

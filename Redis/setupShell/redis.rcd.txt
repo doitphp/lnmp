@@ -1,65 +1,63 @@
 #!/bin/sh
 #
-# redis        Startup script for redis
+# redis - Startup script for redis
 #
 # chkconfig: - 85 15
-# processname: redis-server
-# config: /etc/redis/redis.conf
-# config: /etc/sysconfig/redis
-# pidfile: /var/run/redis.pid
-#
-redisd=/usr/local/redis/bin/redis-server
-redis_config=/usr/local/redis/etc/redis.conf
-redis_pid=/var/run/redis.pid
-RETVAL=0
-prog="redis"
-# Source function library.
+# description: Mongodb database.
+# processname: redisd
+# Source function library
+ 
 . /etc/rc.d/init.d/functions
-# Source networking configuration.
-. /etc/sysconfig/network
-# Check that networking is up.
-[ ${NETWORKING} = "no" ] && exit 0
-[ -x $redisd ] || exit 0
-# Start redis daemons functions.
-start() {
-if [ -e $redis_pid ];then
-   echo "redis already running...."
-   exit 1
-fi
-   echo -n $"Starting $prog: "
-   daemon $redisd ${redis_config}
-   RETVAL=$?
-   echo
-   [ $RETVAL = 0 ] && touch /var/lock/subsys/redis
-   return $RETVAL
-}
-# Stop redis daemons functions.
-stop() {
-	echo -n $"Stopping $prog: "
-	killproc $redisd
-	RETVAL=$?
-	echo
-	[ $RETVAL = 0 ] && rm -f /var/lock/subsys/redis /usr/local/redis/logs/redis.pid
-}
-# See how we were called.
-case "$1" in
-start)
-	start
-	;;
-stop)
-	stop
-	;;
-restart)
-	stop
-	start
-	;;
+# things from redisd.conf get there by redisd reading it
 
-status)
-	status $prog
-	RETVAL=$?
-	;;
-*)
-	echo $"Usage: $prog {start|stop|restart|status|help}"
-	exit 1
+configfile="/usr/local/redis/etc/redis.conf"
+#redisd
+redisd="/usr/local/redis/bin/redis-server"
+lockfile=/var/lock/subsys/redis
+start()
+{
+  echo -n $"Starting redisd: "
+  daemon $redisd $configfile
+  RETVAL=$?
+  echo
+  [ $RETVAL -eq 0 ] && touch $lockfile
+}
+ 
+stop()
+{
+  echo -n $"Stopping redisd: "
+  killproc $redisd -QUIT
+  RETVAL=$?
+  echo
+  [ $RETVAL -eq 0 ] && rm -f $lockfile
+}
+ 
+restart () {
+        stop
+        start
+}
+ulimit -n 12000
+RETVAL=0
+ 
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart|reload|force-reload)
+    restart
+    ;;
+  condrestart)
+    [ -f $lockfile ] && restart || :
+    ;;
+  status)
+    status $redisd
+    RETVAL=$?
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+    RETVAL=1
 esac
 exit $RETVAL
