@@ -49,9 +49,13 @@ mkdir -p /data/mysql
 chown -R mysql:mysql /data/mysql
 
 mkdir -p /usr/local/mysql
-mkdir -m 0777 -p /var/log/mysql
-mkdir -m 0777 -p /var/run/mysqld
-chown -R mysql:mysql /var/run/mysqld
+if [ ! -d /var/log/mysql ]; then
+	mkdir -m 0777 -p /var/log/mysql
+fi
+if [ ! -d /var/run/mysqld ]; then
+	mkdir -m 0777 /var/run/mysqld
+	chown -R mysql:mysql /var/run/mysqld
+fi
 
 printf "========= Cmake install start... =========\n\n"
 
