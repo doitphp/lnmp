@@ -57,7 +57,11 @@ printf "\n========= source package download completed =========\n\n"
 groupadd www
 useradd -g www www -s /bin/false
 
-mkdir -p /www
+mkdir -p /www/htdocs/default
+mkdir -p /www/crontab
+mkdir -p /www/logs
+mkdir -p /www/cache
+mkdir -p /www/tmp
 chown -R www:www /www
 chmod 0755 -R /www
 
@@ -212,8 +216,6 @@ http {
 		server_name localhost;
 		index  index.html index.php;
 		root   /www/htdocs/default;
-
-		#try_files $uri $uri/ /index.php?$uri&$args;
 
 		location ~ \.php\$ {
 			fastcgi_pass  127.0.0.1:9000;

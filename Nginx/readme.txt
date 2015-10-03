@@ -36,6 +36,8 @@ Pid: /var/run/nginx.pid
 /www/htdocs/  用于存放web代码
 /www/crontab/ 用于存放crontab代码
 /www/logs/    用于存放代码运行的日志文件
+/www/cache	用于存放web程序生成的缓存文件
+/www/tmp	用于存放web相关程序生成的临时文件
 
 2、具体规划
 例：htdocs目录分配

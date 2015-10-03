@@ -61,6 +61,8 @@ mkdir -p /www
 mkdir -p /www/htdocs/default
 mkdir -p /www/crontab
 mkdir -p /www/logs
+mkdir -p /www/cache
+mkdir -p /www/tmp
 chown -R www:www /www
 chmod 0755 -R /www
 chmod 0777 -R /www/logs
