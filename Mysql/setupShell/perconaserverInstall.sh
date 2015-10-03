@@ -85,7 +85,7 @@ printf "\n========= Cmake install end =========\n\n"
 printf "========= percona server install start... =========\n\n"
 
 cd percona-server-5.6.26-74.0
-cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/data/mysql -DSYSCONFDIR=/etc -DMYSQL_UNIX_ADDR=/tmp/mysql.sock -DMYSQL_TCP_PORT=3306 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1 -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all
+cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DMYSQL_DATADIR=/data/mysql -DSYSCONFDIR=/etc -DMYSQL_UNIX_ADDR=/var/run/mysqld/mysql.sock -DMYSQL_TCP_PORT=3306 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DWITH_BLACKHOLE_STORAGE_ENGINE=1 -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DENABLED_LOCAL_INFILE=1 -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci -DWITH_EXTRA_CHARSETS=all
 make -j 4
 make install
 cd -
@@ -102,7 +102,7 @@ cat >/etc/my.cnf<<EOF
 [mysqld]
 basedir = /usr/local/mysql
 datadir = /data/mysql
-socket	= /tmp/mysql.sock
+socket	= /var/run/mysqld/mysql.sock
 pid-file = /var/run/mysqld/mysqld.pid
 
 character-set-server = utf8
@@ -144,7 +144,7 @@ bind-address= 0.0.0.0
 [client]
 default-character-set = utf8
 port = 3306
-socket = /tmp/mysql.sock
+socket = /var/run/mysqld/mysql.sock
 EOF
 
 cd /usr/local/mysql
