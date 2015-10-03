@@ -15,8 +15,8 @@ mongodbInstall.sh		MongodbV3.0.6源码编译安装
 /usr/local/mongodb
 
 执行文件: /usr/local/mongodb/bin/mongod
-Pid: /var/run/mongod.pid
-套接文件：/tmp/mongodb-27017.sock
+Pid: /var/run/mongod/mongod.pid
+套接文件：/var/run/mongod/mongodb-27017.sock
 
 二、配置文件
 1、文件目录

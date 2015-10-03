@@ -49,6 +49,11 @@ mkdir -p /data/mongodb
 chown -R mongod:mongod /data/mongodb
 mkdir -m 0777 -p /var/log/mongodb
 
+if [ ! -d /var/run/mongod ]; then
+	mkdir -m 0777 /var/run/mongod
+	chown -R mongod:mongod /var/run/mongod
+fi
+
 mv mongodb-linux-x86_64-3.0.6 mongodb
 cp -R -n mongodb/ /usr/local
 
@@ -72,12 +77,14 @@ dbpath=/data/mongodb
 maxConns = 1024
 noauth=true
 #auth=true
-pidfilepath=/var/run/mongod.pid
+pidfilepath=/var/run/mongod/mongod.pid
 bind_ip=127.0.0.1
 logpath=/var/log/mongodb/mongodb.log
 logappend=true
 quota=true
 quotaFiles = 1024
+nounixsocket = false
+unixSocketPrefix = /var/run/mongod
 EOF
 
 cp ../mongodb.rcd.txt /etc/init.d/mongod
